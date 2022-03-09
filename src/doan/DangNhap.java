@@ -5,6 +5,7 @@
  */
 package doan;
 
+import design.MainQl;
 import quanly.main;
 import sinhvien.MainSinhVien;
 import java.awt.Image;
@@ -195,7 +196,7 @@ public class DangNhap extends javax.swing.JFrame {
                 {
                     if(jRadioQl.isSelected())
                     {
-                        new main().setVisible(true);
+                        new MainQl().setVisible(true);
                         this.setVisible(false);
                     }
                     else

@@ -406,6 +406,7 @@ public class JPanelGiangVien extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTableDSGV);
 
+        listMh.setBackground(new java.awt.Color(204, 255, 255));
         listMh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 listMhActionPerformed(evt);
@@ -426,6 +427,7 @@ public class JPanelGiangVien extends javax.swing.JPanel {
             }
         });
 
+        listMhChon.setBackground(new java.awt.Color(204, 255, 255));
         listMhChon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 listMhChonActionPerformed(evt);
@@ -441,6 +443,9 @@ public class JPanelGiangVien extends javax.swing.JPanel {
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
 
+        jButtonLamMoi.setBackground(new java.awt.Color(0, 102, 204));
+        jButtonLamMoi.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButtonLamMoi.setForeground(new java.awt.Color(255, 255, 255));
         jButtonLamMoi.setText("Làm Mới");
         jButtonLamMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -449,6 +454,9 @@ public class JPanelGiangVien extends javax.swing.JPanel {
         });
         jPanel4.add(jButtonLamMoi);
 
+        jButtonThem.setBackground(new java.awt.Color(0, 102, 204));
+        jButtonThem.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButtonThem.setForeground(new java.awt.Color(255, 255, 255));
         jButtonThem.setText("Thêm");
         jButtonThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -457,6 +465,9 @@ public class JPanelGiangVien extends javax.swing.JPanel {
         });
         jPanel4.add(jButtonThem);
 
+        jButtonSua.setBackground(new java.awt.Color(0, 102, 204));
+        jButtonSua.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButtonSua.setForeground(new java.awt.Color(255, 255, 255));
         jButtonSua.setText("Sửa");
         jButtonSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -465,6 +476,9 @@ public class JPanelGiangVien extends javax.swing.JPanel {
         });
         jPanel4.add(jButtonSua);
 
+        jButtonXoa.setBackground(new java.awt.Color(0, 102, 204));
+        jButtonXoa.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButtonXoa.setForeground(new java.awt.Color(255, 255, 255));
         jButtonXoa.setText("Xóa");
         jButtonXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -483,8 +497,9 @@ public class JPanelGiangVien extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -514,13 +529,9 @@ public class JPanelGiangVien extends javax.swing.JPanel {
                                 .addGap(0, 0, 0)
                                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 118, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 978, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 978, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(186, 186, 186)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 675, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -550,9 +561,9 @@ public class JPanelGiangVien extends javax.swing.JPanel {
                                     .addComponent(jButtonGo))
                                 .addGap(73, 73, 73))))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
+                .addGap(29, 29, 29)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );

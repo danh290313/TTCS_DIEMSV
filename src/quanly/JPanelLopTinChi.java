@@ -93,6 +93,39 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
             ex.printStackTrace();
         }
     }
+    
+    
+    public void timKiemltc(String s)
+    {   
+        model = (DefaultTableModel) jTableDSLTC.getModel();
+        String sql = "select * from loptinchi where maltc like N'%"+s+"%' or namhoc like N'%"+s+"%' or hocki like N'%"+s+"%'";
+        model.setRowCount(0);
+        try(Connection con = DataBaseHelper.getConnection();
+                Statement smt = con.createStatement();)
+        {   
+            Vector vt;
+            ResultSet rs = smt.executeQuery(sql);
+            while (rs.next()) {
+                vt = new Vector();
+                vt.add(rs.getString(1));
+                vt.add(rs.getString(2));
+                vt.add(rs.getString(3));
+                vt.add(rs.getString(4));
+                vt.add(rs.getString(5));
+                vt.add(rs.getString(6));
+                vt.add(rs.getString(7));
+                vt.add(searchTenMonHoc(rs.getString(8)));
+                model.addRow(vt);
+            }
+            jTableDSLTC.setModel(model);
+            
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println("" + sql);
+        
+    }
 
     public String taoMaLTC() {
         String sql = "select maltc from loptinchi";
@@ -395,8 +428,8 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jButtonLamMoi = new javax.swing.JButton();
         jButtonThem = new javax.swing.JButton();
-        jButtonXoa = new javax.swing.JButton();
         jButtonSua = new javax.swing.JButton();
+        jButtonXoa = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jSpinnerSlGv = new javax.swing.JSpinner();
@@ -416,12 +449,15 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
         jCheckBoxLt2 = new javax.swing.JCheckBox();
         jCheckBoxTh2 = new javax.swing.JCheckBox();
         jButtonLocGV = new javax.swing.JButton();
+        jTextTimKiem = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
 
         jFormattedTextField1.setText("jFormattedTextField1");
 
         label1.setText("label1");
 
         setBackground(new java.awt.Color(204, 255, 255));
+        setForeground(new java.awt.Color(0, 102, 204));
         setPreferredSize(new java.awt.Dimension(1050, 700));
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
@@ -457,9 +493,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
         jLabel5.setText("Học Kì:");
         jPanel2.add(jLabel5);
 
-        jComboBoxHocKi.setEditable(true);
-        jComboBoxHocKi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "HK1", "HK2", "HK3" }));
-        jComboBoxHocKi.setSelectedIndex(-1);
+        jComboBoxHocKi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "HK1", "HK2" }));
         jPanel2.add(jComboBoxHocKi);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
@@ -516,6 +550,9 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
 
+        jButtonLamMoi.setBackground(new java.awt.Color(0, 102, 204));
+        jButtonLamMoi.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jButtonLamMoi.setForeground(new java.awt.Color(255, 255, 255));
         jButtonLamMoi.setText("Làm Mới");
         jButtonLamMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -524,6 +561,9 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
         });
         jPanel3.add(jButtonLamMoi);
 
+        jButtonThem.setBackground(new java.awt.Color(0, 102, 204));
+        jButtonThem.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jButtonThem.setForeground(new java.awt.Color(255, 255, 255));
         jButtonThem.setText("Thêm");
         jButtonThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -532,14 +572,9 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
         });
         jPanel3.add(jButtonThem);
 
-        jButtonXoa.setText("Xóa");
-        jButtonXoa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonXoaActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButtonXoa);
-
+        jButtonSua.setBackground(new java.awt.Color(0, 102, 204));
+        jButtonSua.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jButtonSua.setForeground(new java.awt.Color(255, 255, 255));
         jButtonSua.setText("Sửa");
         jButtonSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -548,7 +583,18 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
         });
         jPanel3.add(jButtonSua);
 
-        jPanel4.setBackground(new java.awt.Color(0, 204, 204));
+        jButtonXoa.setBackground(new java.awt.Color(0, 102, 204));
+        jButtonXoa.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jButtonXoa.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonXoa.setText("Xóa");
+        jButtonXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonXoaActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButtonXoa);
+
+        jPanel4.setBackground(new java.awt.Color(0, 204, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Phân Công", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 16), new java.awt.Color(255, 51, 255))); // NOI18N
         jPanel4.setForeground(new java.awt.Color(0, 255, 255));
 
@@ -561,15 +607,17 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
             }
         });
 
-        jPanelGv1.setBackground(new java.awt.Color(0, 153, 153));
+        jPanelGv1.setBackground(new java.awt.Color(0, 153, 255));
 
         jLabel11.setText("Giảng Viên 1:");
 
         jCheckBoxLt1.setSelected(true);
         jCheckBoxLt1.setText("Dạy lý thuyết");
+        jCheckBoxLt1.setOpaque(false);
 
         jCheckBoxTh1.setSelected(true);
         jCheckBoxTh1.setText("Dạy thực hành");
+        jCheckBoxTh1.setOpaque(false);
 
         jComboBoxGv1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -600,15 +648,17 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
                 .addComponent(jComboBoxGv1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanelGv3.setBackground(new java.awt.Color(0, 153, 153));
+        jPanelGv3.setBackground(new java.awt.Color(0, 153, 255));
 
         jLabel13.setText("Giảng Viên 3:");
 
         jCheckBoxLt3.setSelected(true);
         jCheckBoxLt3.setText("Dạy lý thuyết");
+        jCheckBoxLt3.setOpaque(false);
 
         jCheckBoxTh3.setSelected(true);
         jCheckBoxTh3.setText("Dạy thực hành");
+        jCheckBoxTh3.setOpaque(false);
 
         javax.swing.GroupLayout jPanelGv3Layout = new javax.swing.GroupLayout(jPanelGv3);
         jPanelGv3.setLayout(jPanelGv3Layout);
@@ -636,15 +686,17 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanelGv2.setBackground(new java.awt.Color(0, 153, 153));
+        jPanelGv2.setBackground(new java.awt.Color(0, 153, 255));
 
         jLabel12.setText("Giảng Viên 2:");
 
         jCheckBoxLt2.setSelected(true);
         jCheckBoxLt2.setText("Dạy lý thuyết");
+        jCheckBoxLt2.setOpaque(false);
 
         jCheckBoxTh2.setSelected(true);
         jCheckBoxTh2.setText("Dạy thực hành");
+        jCheckBoxTh2.setOpaque(false);
 
         javax.swing.GroupLayout jPanelGv2Layout = new javax.swing.GroupLayout(jPanelGv2);
         jPanelGv2.setLayout(jPanelGv2Layout);
@@ -714,6 +766,23 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jTextTimKiem.setPreferredSize(new java.awt.Dimension(79, 13));
+        jTextTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextTimKiemActionPerformed(evt);
+            }
+        });
+        jTextTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextTimKiemKeyReleased(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel14.setText("Tìm Kiếm:");
+        jLabel14.setMaximumSize(new java.awt.Dimension(90, 22));
+        jLabel14.setPreferredSize(new java.awt.Dimension(90, 13));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -730,13 +799,18 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(13, 13, 13)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 995, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 4, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 995, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addGap(4, 4, 4)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(293, 293, 293))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -750,10 +824,14 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
                         .addGap(32, 32, 32)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(34, 34, 34)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-                .addGap(29, 29, 29))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -937,6 +1015,15 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButtonLocGVActionPerformed
 
+    private void jTextTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextTimKiemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextTimKiemActionPerformed
+
+    private void jTextTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextTimKiemKeyReleased
+        // TODO add your handling code here:
+        timKiemltc(jTextTimKiem.getText());
+    }//GEN-LAST:event_jTextTimKiemKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonLamMoi;
@@ -963,6 +1050,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -985,6 +1073,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
     private javax.swing.JTextField jTextNamHoc;
     private javax.swing.JTextField jTextSLToiDa;
     private javax.swing.JTextField jTextSLToiThieu;
+    private javax.swing.JTextField jTextTimKiem;
     private java.awt.Label label1;
     // End of variables declaration//GEN-END:variables
 }

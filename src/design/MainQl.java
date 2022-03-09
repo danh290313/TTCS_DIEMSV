@@ -8,8 +8,10 @@ import com.raven.form.Form_3;
 import com.raven.form.Form_Home;
 import com.raven.main.Main;
 import com.raven.main.NewJPanel;
+import doan.DangNhap;
 import java.awt.Color;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import quanly.*;
 
 /**
@@ -26,12 +28,13 @@ public class MainQl extends javax.swing.JFrame {
     private JPanelGiangVien QLGv = new JPanelGiangVien();
     private JPanelDangKy QLDk = new JPanelDangKy();
     private JPanelSinhVien QLSV = new JPanelSinhVien();
-    
+    private JPanelDoAnTotNghiep QLDA = new JPanelDoAnTotNghiep();
    
     public MainQl() {
         initComponents();
         //setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
+        
         menu.initMoving(this);
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -49,11 +52,19 @@ public class MainQl extends javax.swing.JFrame {
                 } else if (index ==5)
                 {
                    setForm(QLSV);
+                } else if (index ==6)
+                {
+                   setForm(QLDA);
                 }
                 
-                else if (index ==12)
+                else if (index ==13)
                 {
-                    System.exit(0);
+                    int click = JOptionPane.showConfirmDialog(null, "Đăng xuất ngay bây giờ?");
+                    if (click == JOptionPane.OK_OPTION) {
+                        new DangNhap().setVisible(true);
+                        setVisible(false);
+                        
+                    }
                 }
                  
                 
@@ -138,6 +149,9 @@ public class MainQl extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainQl.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

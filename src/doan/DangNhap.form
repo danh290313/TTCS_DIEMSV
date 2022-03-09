@@ -46,6 +46,9 @@
   </Layout>
   <SubComponents>
     <Container class="com.raven.swing.PanelBorder" name="panelBorder1">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="DangNhap_panelBorder1"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">

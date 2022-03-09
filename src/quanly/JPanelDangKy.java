@@ -320,6 +320,9 @@ public class JPanelDangKy extends javax.swing.JPanel {
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
 
+        jButtonLamMoi.setBackground(new java.awt.Color(0, 102, 204));
+        jButtonLamMoi.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButtonLamMoi.setForeground(new java.awt.Color(255, 255, 255));
         jButtonLamMoi.setText("Làm Mới");
         jButtonLamMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -328,6 +331,9 @@ public class JPanelDangKy extends javax.swing.JPanel {
         });
         jPanel4.add(jButtonLamMoi);
 
+        jButtonThem.setBackground(new java.awt.Color(0, 102, 204));
+        jButtonThem.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButtonThem.setForeground(new java.awt.Color(255, 255, 255));
         jButtonThem.setText("Thêm");
         jButtonThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -336,6 +342,9 @@ public class JPanelDangKy extends javax.swing.JPanel {
         });
         jPanel4.add(jButtonThem);
 
+        jButtonSua.setBackground(new java.awt.Color(0, 102, 204));
+        jButtonSua.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButtonSua.setForeground(new java.awt.Color(255, 255, 255));
         jButtonSua.setText("Sửa");
         jButtonSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -344,6 +353,9 @@ public class JPanelDangKy extends javax.swing.JPanel {
         });
         jPanel4.add(jButtonSua);
 
+        jButtonXoa.setBackground(new java.awt.Color(0, 102, 204));
+        jButtonXoa.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButtonXoa.setForeground(new java.awt.Color(255, 255, 255));
         jButtonXoa.setText("Xóa");
         jButtonXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
