@@ -364,6 +364,7 @@ public class JPanelSinhVien extends javax.swing.JPanel {
         jLabel16.setPreferredSize(new java.awt.Dimension(50, 22));
         jPanel2.add(jLabel16);
 
+        jTextHoTenSv.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jTextHoTenSv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextHoTenSvActionPerformed(evt);
@@ -397,7 +398,7 @@ public class JPanelSinhVien extends javax.swing.JPanel {
         jLabel17.setText("Địa Chỉ: ");
         jPanel2.add(jLabel17);
 
-        jTextDiaChi.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextDiaChi.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jTextDiaChi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextDiaChiActionPerformed(evt);
@@ -414,6 +415,7 @@ public class JPanelSinhVien extends javax.swing.JPanel {
         jPanel3.add(jLabel4);
 
         jComboBoxKhoaHoc.setEditable(true);
+        jComboBoxKhoaHoc.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jComboBoxKhoaHoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2020-2024", "2021-2025", "2022-2026" }));
         jPanel3.add(jComboBoxKhoaHoc);
 
@@ -423,6 +425,7 @@ public class JPanelSinhVien extends javax.swing.JPanel {
         jPanel3.add(jLabel14);
 
         jComboBoxLopHoc.setEditable(true);
+        jComboBoxLopHoc.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jPanel3.add(jComboBoxLopHoc);
 
         jLabel9.setBackground(new java.awt.Color(255, 204, 204));
@@ -487,6 +490,7 @@ public class JPanelSinhVien extends javax.swing.JPanel {
         jLabel8.setText("Đề Án Tốt Nghiệp: ");
 
         jTextAreaDaTn.setColumns(20);
+        jTextAreaDaTn.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jTextAreaDaTn.setRows(5);
         jScrollPane2.setViewportView(jTextAreaDaTn);
 
@@ -542,6 +546,7 @@ public class JPanelSinhVien extends javax.swing.JPanel {
         jLabel7.setMaximumSize(new java.awt.Dimension(90, 22));
         jLabel7.setPreferredSize(new java.awt.Dimension(90, 13));
 
+        jTextTimKiem.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jTextTimKiem.setPreferredSize(new java.awt.Dimension(79, 13));
         jTextTimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -566,49 +571,54 @@ public class JPanelSinhVien extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 994, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(9, 9, 9)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jTextTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                                        .addGap(661, 661, 661))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 994, Short.MAX_VALUE)
+                                        .addGap(7, 7, 7))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 733, Short.MAX_VALUE)
+                                        .addGap(30, 30, 30))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
                                         .addGap(62, 62, 62)
-                                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 41, Short.MAX_VALUE)))))
+                                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)))
+                                .addGap(41, 41, 41)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
                         .addGap(11, 11, 11))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)))
+                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                        .addGap(42, 42, 42)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)))
+                .addGap(11, 11, 11)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -650,8 +660,10 @@ public class JPanelSinhVien extends javax.swing.JPanel {
         
 
         String sql = "insert into sinhvien values(?,?,?,?,?,  ?,?,?,?,?,?)";
+        
         try (Connection con = DataBaseHelper.getConnection();
-            PreparedStatement smt = con.prepareStatement(sql);) {
+            PreparedStatement smt = con.prepareStatement(sql);
+                ) {
             String maSv = taoMaSv();
             smt.setString(1, maSv);
             smt.setString(2, jTextHoTenSv.getText());
@@ -679,6 +691,8 @@ public class JPanelSinhVien extends javax.swing.JPanel {
             smt.setString(10, searchMaLop(jComboBoxLopHoc.getSelectedItem().toString()) );
             smt.setString(11, "123");
             
+            
+            
             if(jTextAreaDaTn.getText().equals("")) 
                 smt.setNull(8, Types.NULL);
             else
@@ -686,7 +700,7 @@ public class JPanelSinhVien extends javax.swing.JPanel {
                smt.setNull(8, Types.NULL);  
                 //smt.setString(8,maDa);  
             }
-            
+                        
             int kt = smt.executeUpdate();
             String maDa  = insertDoAnTotNghiep(maSv);
             System.out.println("" + maDa);
@@ -699,6 +713,17 @@ public class JPanelSinhVien extends javax.swing.JPanel {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        
+//        String sql2 = "insert into taikhoansv values(?,?,?) ";
+//        
+//        try(Connection con = DataBaseHelper.getConnection();
+//            PreparedStatement smt2 = con.prepareStatement(sql2); )
+//        {
+//            smt2.setString(1,  );
+//        }catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+        
     }//GEN-LAST:event_jButtonThemActionPerformed
 
     private void jButtonXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXoaActionPerformed

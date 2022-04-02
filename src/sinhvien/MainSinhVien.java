@@ -30,20 +30,22 @@ public class MainSinhVien extends javax.swing.JFrame {
      */
     DefaultTableModel model = new DefaultTableModel();
     boolean flag1 = false, flag2 = false, flag3 = false;
+    String maSv;
     public MainSinhVien() {
         new MainSinhVien("sv1").setVisible(true);
         
     }
     
-    public MainSinhVien(String masv) {
+    public MainSinhVien(String maSv) {
         initComponents();
         this.setLocationRelativeTo(null);
-        String hoten = searchTenSinhVien(masv);
-        jLabelMSv.setText(masv.toUpperCase());
+        String hoten = searchTenSinhVien(maSv);
+        jLabelMSv.setText(maSv.toUpperCase());
         jLabelMSv.setForeground(Color.red);
         jLabelHoTen.setText(hoten.toUpperCase());
         jLabelHoTen.setForeground(Color.red);
         initboxNamTheoSv();
+        this.maSv = maSv;
         
         
     }
@@ -586,12 +588,12 @@ public class MainSinhVien extends javax.swing.JFrame {
 
     private void jMenuItemTttkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemTttkActionPerformed
         // TODO add your handling code here:
-        new Information("sv1").setVisible(true);
+        new Information(maSv).setVisible(true);
     }//GEN-LAST:event_jMenuItemTttkActionPerformed
 
     private void jMenuItemdoiMkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemdoiMkActionPerformed
         // TODO add your handling code here:
-        new PasswordChange("sv1").setVisible(true);
+        new PasswordChange(maSv).setVisible(true);
     }//GEN-LAST:event_jMenuItemdoiMkActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed

@@ -25,6 +25,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -52,6 +53,8 @@ public class DangNhap extends javax.swing.JFrame {
         {
             ex.printStackTrace();
         }
+        jTextTenTk.setText("sa");
+        jPasswordMK.setText("sa");
         
         
         
@@ -82,12 +85,19 @@ public class DangNhap extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản Lý Điểm Sinh Viên");
         setBackground(new java.awt.Color(0, 204, 204));
-        setMaximumSize(new java.awt.Dimension(800, 500));
         setUndecorated(true);
 
+        jTextTenTk.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+
         buttonGroup1.add(jRadioSv);
+        jRadioSv.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jRadioSv.setForeground(new java.awt.Color(204, 0, 0));
         jRadioSv.setText("Sinh viên");
 
+        jPasswordMK.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+
+        jButtonDangNhap.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButtonDangNhap.setForeground(new java.awt.Color(255, 255, 255));
         jButtonDangNhap.setText("Đăng Nhập");
         jButtonDangNhap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,14 +105,20 @@ public class DangNhap extends javax.swing.JFrame {
             }
         });
 
+        jLabelMk.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelMk.setText("Mật khẩu:");
 
         buttonGroup1.add(jRadioQl);
+        jRadioQl.setFont(new java.awt.Font("Tahoma", 3, 16)); // NOI18N
+        jRadioQl.setForeground(new java.awt.Color(204, 0, 0));
         jRadioQl.setSelected(true);
         jRadioQl.setText("Quản lý");
 
+        jLabelTtk.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelTtk.setText("Tên tài khoản:");
 
+        jButtonThoat.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButtonThoat.setForeground(new java.awt.Color(255, 255, 255));
         jButtonThoat.setText("Thoát");
         jButtonThoat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,25 +131,28 @@ public class DangNhap extends javax.swing.JFrame {
         panelBorder1Layout.setHorizontalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
-                .addGap(153, 153, 153)
-                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
+                        .addGap(153, 153, 153)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelTtk)
                             .addComponent(jLabelMk))
                         .addGap(34, 34, 34)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextTenTk, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPasswordMK, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelBorder1Layout.createSequentialGroup()
-                                .addComponent(jRadioQl, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(53, 53, 53)
-                                .addComponent(jRadioSv, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jPasswordMK, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(69, 69, 69))
                     .addGroup(panelBorder1Layout.createSequentialGroup()
+                        .addGap(179, 179, 179)
                         .addComponent(jButtonDangNhap)
-                        .addGap(67, 67, 67)
-                        .addComponent(jButtonThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(187, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBorder1Layout.createSequentialGroup()
+                        .addGap(284, 284, 284)
+                        .addComponent(jRadioQl, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77)
+                        .addComponent(jRadioSv, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,22 +165,22 @@ public class DangNhap extends javax.swing.JFrame {
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelMk)
                     .addComponent(jPasswordMK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                .addGap(75, 75, 75)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioSv)
-                    .addComponent(jRadioQl))
-                .addGap(69, 69, 69)
+                    .addComponent(jRadioQl)
+                    .addComponent(jRadioSv))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonDangNhap)
                     .addComponent(jButtonThoat))
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addGap(72, 72, 72))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,47 +194,89 @@ public class DangNhap extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(jTextTenTk.getText().equals(""))
         {
-            JOptionPane.showMessageDialog(this, "Ten tai khoan khong duoc de trong");
+            JOptionPane.showMessageDialog(this, "Tên tài khoản không được để trống");
             return;
         }
         if(jPasswordMK.getText().equals(""))
         {
-            JOptionPane.showMessageDialog(this, "Mat khau khong duoc de trong");
+            JOptionPane.showMessageDialog(this, "Mật khẩu không được để trống");
             return;
         }
-        
-        String sql = "select * from taikhoan where tentaikhoan=? and matkhau=?";
+
         String sql2 = "select * from sinhvien where masv=? and matkhau=?";
-        try(Connection con = DataBaseHelper.getConnection();
-            PreparedStatement smt = con.prepareStatement(jRadioQl.isSelected() ? sql : sql2 );)
+        
+        if(jRadioQl.isSelected())
+        {   
+            DataBaseHelper.name=jTextTenTk.getText();
+            DataBaseHelper.pass=jPasswordMK.getText();
+            try(Connection con = DataBaseHelper.getConnection();)
+            {     
+                new MainQl().setVisible(true);
+                this.setVisible(false);      
+            } 
+            catch (SQLException ex) 
+            {
+                JOptionPane.showMessageDialog(this, "Nhập sai tên tài khoản hoặc mật khẩu");
+            }
+            
+        }
+        else
+        {
+            DataBaseHelper.name="DS_SINHVIEN";
+            DataBaseHelper.pass="123456";
+            try(Connection con = DataBaseHelper.getConnection();
+            PreparedStatement smt = con.prepareStatement(sql2);)
             {
                 smt.setString(1,jTextTenTk.getText());
                 smt.setString(2,jPasswordMK.getText());
                 ResultSet rs = smt.executeQuery();
                 if(rs.next()) 
-                {
-                    if(jRadioQl.isSelected())
-                    {
-                        new MainQl().setVisible(true);
-                        this.setVisible(false);
-                    }
-                    else
-                    {
-                        new MainSinhVien(jTextTenTk.getText()).setVisible(true);
-                        this.setVisible(false);
-                    }
+                {      
+                     new MainSinhVien(jTextTenTk.getText()).setVisible(true);
+                     this.setVisible(false);
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(this, "Nhap sai ten tai khoan hoac mat khau");
+                    JOptionPane.showMessageDialog(this, "Nhập sai tên tài khoản hoặc mật khẩu");
                     jTextTenTk.grabFocus();
                 }
                 
             } 
-        catch (SQLException ex) 
-        {
-            ex.printStackTrace();
+            catch (SQLException ex) 
+            {
+                ex.printStackTrace();
+            }
         }
+//        try(Connection con = DataBaseHelper.getConnection();
+//            PreparedStatement smt = con.prepareStatement(jRadioQl.isSelected() ? sql : sql2 );)
+//            {
+//                smt.setString(1,jTextTenTk.getText());
+//                smt.setString(2,jPasswordMK.getText());
+//                ResultSet rs = smt.executeQuery();
+//                if(rs.next()) 
+//                {
+//                    if(jRadioQl.isSelected())
+//                    {
+//                        new MainQl().setVisible(true);
+//                        this.setVisible(false);
+//                    }
+//                    else
+//                    {
+//                        new MainSinhVien(jTextTenTk.getText()).setVisible(true);
+//                        this.setVisible(false);
+//                    }
+//                }
+//                else
+//                {
+//                    JOptionPane.showMessageDialog(this, "Nhap sai ten tai khoan hoac mat khau");
+//                    jTextTenTk.grabFocus();
+//                }
+//                
+//            } 
+//        catch (SQLException ex) 
+//        {
+//            ex.printStackTrace();
+//        }
     }//GEN-LAST:event_jButtonDangNhapActionPerformed
 
     private void jButtonThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThoatActionPerformed

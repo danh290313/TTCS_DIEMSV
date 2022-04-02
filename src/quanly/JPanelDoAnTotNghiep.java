@@ -88,6 +88,7 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
         jComboBoxGVHD.setSelectedIndex(-1);
         jComboBoxGVPB.setSelectedIndex(-1);
         jTableDoAn.setRowSelectionAllowed(false);
+        initData();
     }
 
     /**
@@ -131,6 +132,7 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
         jLabel1.setText("Đồ Án Tốt Nghiệp");
         jPanel1.add(jLabel1);
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel4.setText("Mã Đồ Án: ");
 
         jLabelMaDa.setBackground(new java.awt.Color(204, 255, 0));
@@ -158,11 +160,13 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridLayout(2, 2, 20, 0));
 
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel13.setText("Mã Giáo Viên hội đồng:");
         jPanel2.add(jLabel13);
 
         jPanel2.add(jComboBoxGVHD);
 
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel14.setText("Mã Giáo Viên phản biện:");
         jPanel2.add(jLabel14);
 
@@ -171,18 +175,26 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.GridLayout(2, 2, 20, 0));
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel7.setText("Điểm hội đồng:");
         jPanel3.add(jLabel7);
+
+        jTextDiemHD.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jPanel3.add(jTextDiemHD);
 
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel8.setText("Điểm phản biện:");
         jPanel3.add(jLabel8);
+
+        jTextDiemPB.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jPanel3.add(jTextDiemPB);
 
         jTextAreaNDDoAn.setColumns(20);
+        jTextAreaNDDoAn.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jTextAreaNDDoAn.setRows(5);
         jScrollPane2.setViewportView(jTextAreaNDDoAn);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel2.setText("Nội dung Đồ Án:");
 
         jPanel4.setOpaque(false);
@@ -220,48 +232,51 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 994, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(31, 31, 31)
-                                .addComponent(jLabelMaDa, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabelMaDa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(785, 785, 785))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addGap(861, 861, 861))
                             .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(117, 117, 117)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(33, 33, 33))
             .addGroup(layout.createSequentialGroup()
                 .addGap(228, 228, 228)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(233, 233, 233))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelMaDa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
                 .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                        .addGap(5, 5, 5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addGap(46, 46, 46)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                 .addGap(34, 34, 34))
         );
     }// </editor-fold>//GEN-END:initComponents

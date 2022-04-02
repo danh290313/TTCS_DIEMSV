@@ -2,13 +2,8 @@
 package design;
 
 import com.raven.event.EventMenuSelected;
-import com.raven.form.Form_1;
-import com.raven.form.Form_2;
-import com.raven.form.Form_3;
-import com.raven.form.Form_Home;
-import com.raven.main.Main;
-import com.raven.main.NewJPanel;
 import doan.DangNhap;
+import doan.JPanelTaoGv;
 import java.awt.Color;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -29,6 +24,7 @@ public class MainQl extends javax.swing.JFrame {
     private JPanelDangKy QLDk = new JPanelDangKy();
     private JPanelSinhVien QLSV = new JPanelSinhVien();
     private JPanelDoAnTotNghiep QLDA = new JPanelDoAnTotNghiep();
+    private JPanelCapTkGv taoTKGV = new JPanelCapTkGv();
    
     public MainQl() {
         initComponents();
@@ -52,9 +48,14 @@ public class MainQl extends javax.swing.JFrame {
                 } else if (index ==5)
                 {
                    setForm(QLSV);
-                } else if (index ==6)
+                } else if (index == 6)
                 {
                    setForm(QLDA);
+                  
+                } 
+                else if (index == 9)
+                {
+                    setForm(taoTKGV);
                 }
                 
                 else if (index ==13)
@@ -97,8 +98,8 @@ public class MainQl extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 102, 255));
-        setUndecorated(true);
 
+        jPanelQL.setBackground(new java.awt.Color(153, 255, 255));
         jPanelQL.setOpaque(false);
         jPanelQL.setLayout(new java.awt.BorderLayout());
 
@@ -116,8 +117,8 @@ public class MainQl extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanelQL, javax.swing.GroupLayout.PREFERRED_SIZE, 711, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jPanelQL, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

@@ -13,13 +13,16 @@ import java.sql.DriverManager;
  * @author hyipd
  */
 public class DataBaseHelper {
+    
+    
+    static String name,pass;
+    
     public static Connection getConnection() throws SQLException
     {   
         String url = "jdbc:sqlserver://;databaseName=qldiem";
-        String name = "sa";
-        String pass = "sa";
         Connection con = DriverManager.getConnection(url,name,pass);
         return con; 
     }
     
 }
+

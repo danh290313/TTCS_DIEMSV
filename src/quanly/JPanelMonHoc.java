@@ -5,6 +5,8 @@
  */
 package quanly;
 
+import core.ChuyenNganh;
+import core.MonHoc;
 import doan.DataBaseHelper;
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -16,11 +18,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Stack;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import static quanly.JPanelChuyenNganh.stack;
+import static quanly.JPanelChuyenNganh.strings;
 
 /**
  *
@@ -34,12 +39,15 @@ public class JPanelMonHoc extends javax.swing.JPanel {
     public JPanelMonHoc() {
         initComponents();
         initData();
+        strings = new Stack<>();
+        stack = new Stack<>();
         jLabelMaMH.setText(taoMaMH());
         jLabelMaMH.setForeground(Color.RED);
     }
     
     DefaultTableModel model = new DefaultTableModel();
-    
+    public static Stack<String> strings = null;
+    public static Stack<MonHoc> stack = null;
     
     
     public void initData()
@@ -131,6 +139,8 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         jTextSTc.setText("");
     }
     
+    
+    
     @Override
     protected void paintChildren(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs;
@@ -140,6 +150,29 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
         g2.fillRect(getWidth() - 20, 0, getWidth(), getHeight());
         super.paintChildren(grphcs);
+    }
+    
+    
+    public MonHoc getMhTheoMa(String maMh)
+    {
+        MonHoc mh = new MonHoc();
+        String sql = " SELECT * FROM monhoc WHERE mamh=N'" + maMh + "'";
+        try {
+            Connection con = DataBaseHelper.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()) {
+                mh.setMaMH(rs.getString(1));
+                mh.setTenMH(rs.getString(2)); 
+                mh.setSoTietLT(Integer.parseInt(rs.getString(3))); 
+                mh.setSoTietTH(Integer.parseInt(rs.getString(4))); 
+                mh.setSoTinChi(Integer.parseInt(rs.getString(5))); 
+                return mh;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -160,6 +193,7 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         jButtonThem = new javax.swing.JButton();
         jButtonSua = new javax.swing.JButton();
         jButtonXoa = new javax.swing.JButton();
+        jButtonKhoiPhuc = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabelMaMH = new javax.swing.JLabel();
@@ -251,6 +285,18 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         });
         jPanel2.add(jButtonXoa);
 
+        jButtonKhoiPhuc.setBackground(new java.awt.Color(0, 102, 204));
+        jButtonKhoiPhuc.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButtonKhoiPhuc.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonKhoiPhuc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/1restore.png"))); // NOI18N
+        jButtonKhoiPhuc.setText("Khôi phục");
+        jButtonKhoiPhuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonKhoiPhucActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButtonKhoiPhuc);
+
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.GridLayout(0, 2, 10, 0));
 
@@ -267,6 +313,7 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         jLabel2.setText("Tên Môn Học: ");
         jPanel3.add(jLabel2);
 
+        jTextMh.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jTextMh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextMhActionPerformed(evt);
@@ -278,12 +325,16 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
         jLabel3.setText("Số tiết lý thuyết: ");
         jPanel3.add(jLabel3);
+
+        jTextStLt.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jPanel3.add(jTextStLt);
 
         jLabel4.setBackground(new java.awt.Color(255, 204, 204));
         jLabel4.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
         jLabel4.setText("Số tiết thực hành: ");
         jPanel3.add(jLabel4);
+
+        jTextStTh.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jPanel3.add(jTextStTh);
 
         jLabel5.setBackground(new java.awt.Color(255, 204, 204));
@@ -291,6 +342,7 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         jLabel5.setText("Số tín chỉ: ");
         jPanel3.add(jLabel5);
 
+        jTextSTc.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jTextSTc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextSTcActionPerformed(evt);
@@ -326,36 +378,36 @@ public class JPanelMonHoc extends javax.swing.JPanel {
                         .addContainerGap()
                         .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(168, 168, 168)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 681, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1007, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(168, 168, 168)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
+                        .addGap(187, 187, 187))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1006, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTextTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                .addGap(807, 807, 807))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(42, 42, 42)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)))
                 .addGap(19, 19, 19)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -368,22 +420,27 @@ public class JPanelMonHoc extends javax.swing.JPanel {
     private void jTextMhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextMhActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextMhActionPerformed
-
-    private void jButtonThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemActionPerformed
-        // TODO add your handling code here:
-
+    
+    public void themMh(String maMh, String tenMh,int solt,int soth,int sotinchi, boolean checkRestore)
+    {
+        
         String sql = "insert into monhoc values(?,?,?,?,?)";
         try (Connection con = DataBaseHelper.getConnection();
             PreparedStatement smt = con.prepareStatement(sql);) {
-            smt.setString(1, taoMaMH());
-            smt.setString(2, jTextMh.getText());
-            smt.setInt(3, Integer.parseInt(jTextStLt.getText()) );
-            smt.setInt(4, Integer.parseInt(jTextStTh.getText()));
-            smt.setInt(5, Integer.parseInt(jTextSTc.getText()));
+            smt.setString(1, maMh);
+            smt.setString(2, tenMh);
+            smt.setInt(3,  solt);
+            smt.setInt(4, soth);
+            smt.setInt(5, sotinchi);
 
             int kt = smt.executeUpdate();
             if (kt > 0) {
                 JOptionPane.showMessageDialog(this, "insert thanh cong");
+                if(checkRestore)
+                {
+                    strings.push("Them");
+                    stack.push(new MonHoc(maMh,tenMh,solt,soth,sotinchi));
+                }
             }
             initData();
             lamMoi();
@@ -391,18 +448,27 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-    }//GEN-LAST:event_jButtonThemActionPerformed
-
-    private void jButtonXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXoaActionPerformed
+    }
+    
+    private void jButtonThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemActionPerformed
         // TODO add your handling code here:
-        int kt = JOptionPane.showConfirmDialog(this, "ban co muon xoa khong");
-        if (kt == JOptionPane.CANCEL_OPTION) {
-            return;
-        } else if (kt == JOptionPane.OK_OPTION) {
-            String sql = "delete from monhoc where mamh=?";
+        themMh(taoMaMH(), jTextMh.getText(), Integer.parseInt(jTextStLt.getText()), Integer.parseInt(jTextStTh.getText()), Integer.parseInt(jTextSTc.getText()), true);
+        
+    }//GEN-LAST:event_jButtonThemActionPerformed
+    
+
+    public void xoaMh(String maMh,boolean checkRestore)
+    {   
+        if(checkRestore)
+        {
+            strings.push("Xoa");
+            stack.push(getMhTheoMa(maMh));
+        }
+        
+         String sql = "delete from monhoc where mamh=?";
             try (Connection con = DataBaseHelper.getConnection();
                 PreparedStatement smt = con.prepareStatement(sql);) {
-                smt.setString(1, jLabelMaMH.getText());
+                smt.setString(1, maMh);
 
                 int kt2 = smt.executeUpdate();
                 if (kt2 > 0) {
@@ -414,24 +480,35 @@ public class JPanelMonHoc extends javax.swing.JPanel {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        }
-    }//GEN-LAST:event_jButtonXoaActionPerformed
-
-    private void jButtonSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuaActionPerformed
+    }
+    
+    private void jButtonXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXoaActionPerformed
         // TODO add your handling code here:
-        int kt = JOptionPane.showConfirmDialog(this, "ban chan chan muon sua khong");
+        int kt = JOptionPane.showConfirmDialog(this, "ban co muon xoa khong");
         if (kt == JOptionPane.CANCEL_OPTION) {
             return;
         } else if (kt == JOptionPane.OK_OPTION) {
-            String sql = "update monhoc set tenmh=?,sotietlt=?,sotietth=?,sotinchi=? where mamh = ?";
+            xoaMh(jLabelMaMH.getText(), true);
+        }
+    }//GEN-LAST:event_jButtonXoaActionPerformed
+    
+    public void suaMh(String maMh, String tenMh,int solt,int soth,int sotinchi, boolean checkRestore)
+    {
+        if(checkRestore)
+           {
+               strings.push("Sua");
+               stack.push(getMhTheoMa(maMh));
+           }
+        
+        String sql = "update monhoc set tenmh=?,sotietlt=?,sotietth=?,sotinchi=? where mamh = ?";
             try (Connection con = DataBaseHelper.getConnection();
                 PreparedStatement smt = con.prepareStatement(sql);) {
 
-                smt.setString(1, jTextMh.getText());
-                smt.setInt(2, Integer.parseInt(jTextStLt.getText()));
-                smt.setInt(3, Integer.parseInt(jTextStTh.getText()));
-                smt.setInt(4, Integer.parseInt(jTextSTc.getText()));
-                smt.setString(5, jLabelMaMH.getText());
+                smt.setString(1, tenMh);
+                smt.setInt(2, solt);
+                smt.setInt(3, soth);
+                smt.setInt(4, sotinchi);
+                smt.setString(5, maMh);
 
                 int kt2 = smt.executeUpdate();
                 if (kt2 > 0) {
@@ -443,6 +520,15 @@ public class JPanelMonHoc extends javax.swing.JPanel {
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, ex.toString());
             }
+    }
+    
+    private void jButtonSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuaActionPerformed
+        // TODO add your handling code here:
+        int kt = JOptionPane.showConfirmDialog(this, "ban chan chan muon sua khong");
+        if (kt == JOptionPane.CANCEL_OPTION) {
+            return;
+        } else if (kt == JOptionPane.OK_OPTION) {
+            suaMh(jLabelMaMH.getText(), jTextMh.getText(), Integer.parseInt(jTextStLt.getText()), Integer.parseInt(jTextStTh.getText()), Integer.parseInt(jTextSTc.getText()), true);
         }
     }//GEN-LAST:event_jButtonSuaActionPerformed
 
@@ -472,8 +558,39 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         timKiemmh(jTextTimKiem.getText());
     }//GEN-LAST:event_jTextTimKiemKeyReleased
 
+    private void jButtonKhoiPhucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKhoiPhucActionPerformed
+        // TODO add your handling code here:
+        if (strings.isEmpty() && stack.isEmpty()) {
+            return;
+        } else {
+
+            int kt = JOptionPane.showConfirmDialog(
+                this, "Bạn có chắc chắn quay lại?", "Confirm",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (kt == JOptionPane.YES_OPTION) {
+
+                String check = strings.pop();
+                MonHoc mh = stack.pop();
+
+                if (check.equals("Them")) {
+
+                    xoaMh(mh.getMaMH(),false);
+                }
+                else if (check.equals("Sua")) {
+                    suaMh(mh.getMaMH(), mh.getTenMH(),mh.getSoTietLT(),mh.getSoTietTH(),mh.getSoTinChi(),false);
+                }
+                else if (check.equals("Xoa")) {
+                    themMh(mh.getMaMH(), mh.getTenMH(),mh.getSoTietLT(),mh.getSoTietTH(),mh.getSoTinChi(),false);
+                }
+
+            }
+
+        }
+    }//GEN-LAST:event_jButtonKhoiPhucActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonKhoiPhuc;
     private javax.swing.JButton jButtonLamMoi;
     private javax.swing.JButton jButtonSua;
     private javax.swing.JButton jButtonThem;

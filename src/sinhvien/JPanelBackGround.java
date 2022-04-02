@@ -174,6 +174,12 @@ public class JPanelBackGround extends javax.swing.JPanel {
 
         jLabel11.setText("Năm Học: ");
 
+        jComboNamHoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboNamHocActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelXemDiemLayout = new javax.swing.GroupLayout(jPanelXemDiem);
         jPanelXemDiem.setLayout(jPanelXemDiemLayout);
         jPanelXemDiemLayout.setHorizontalGroup(
@@ -255,6 +261,10 @@ public class JPanelBackGround extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jComboNamHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboNamHocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboNamHocActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
