@@ -63,7 +63,7 @@ public class JPanelCapTkGv extends javax.swing.JPanel {
             jTableGV.setModel(model);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
 
@@ -190,10 +190,10 @@ public class JPanelCapTkGv extends javax.swing.JPanel {
 
             smt.executeUpdate();
 
-            JOptionPane.showMessageDialog(this, "xoa thanh cong");
+            JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công");
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }//GEN-LAST:event_jButtonXoaActionPerformed
 

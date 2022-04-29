@@ -69,7 +69,7 @@ public class JPanelDangKy extends javax.swing.JPanel {
             
             
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
     
@@ -83,7 +83,7 @@ public class JPanelDangKy extends javax.swing.JPanel {
                 return rs.getString(1);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
         return null;
     }
@@ -115,7 +115,7 @@ public class JPanelDangKy extends javax.swing.JPanel {
             jTableDSSVDangKy.setModel(model);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
     //---
@@ -143,7 +143,7 @@ public class JPanelDangKy extends javax.swing.JPanel {
             JOptionPane.showMessageDialog
                     (this,jTableDSSVDangKy.getValueAt(row, 0).toString().toUpperCase()+" đã được "
                         +jTableDSSVDangKy.getValueAt(row, 1).toString().toUpperCase()+" đăng ký!");
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
             return false;           
         }
         return true;
@@ -158,7 +158,7 @@ public class JPanelDangKy extends javax.swing.JPanel {
             smt.setString(2, jTableDSSVDangKy.getValueAt(row, 1).toString().toUpperCase());
             smt.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         } 
     }  
     

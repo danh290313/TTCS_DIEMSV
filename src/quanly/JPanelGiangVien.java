@@ -5,6 +5,7 @@
  */
 package quanly;
 
+import static dao.Provider.searchMaMonHoc;
 import doan.DataBaseHelper;
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -63,7 +64,7 @@ public class JPanelGiangVien extends javax.swing.JPanel {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
 
@@ -80,7 +81,7 @@ public class JPanelGiangVien extends javax.swing.JPanel {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
 
@@ -99,7 +100,7 @@ public class JPanelGiangVien extends javax.swing.JPanel {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
         return false;
     }
@@ -112,7 +113,7 @@ public class JPanelGiangVien extends javax.swing.JPanel {
             int kt2 = smt.executeUpdate();
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
 
@@ -140,7 +141,7 @@ public class JPanelGiangVien extends javax.swing.JPanel {
             jTableDSGV.setModel(model);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
 
@@ -158,25 +159,11 @@ public class JPanelGiangVien extends javax.swing.JPanel {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
         return "GV" + String.valueOf(max + 1);
     }
 
-    public String searchMaMonHoc(String tenMH) {
-        String sql = " SELECT mamh FROM monhoc WHERE tenmh=N'" + tenMH + "'";
-        try {
-            Connection con = DataBaseHelper.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            if (rs.next()) {
-                return rs.getString(1);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
 
     public void lamMoi() {
         jLabelMaGV.setText(taoMaGV());
@@ -214,7 +201,7 @@ public class JPanelGiangVien extends javax.swing.JPanel {
             //initDataMhCn();
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
     
@@ -721,7 +708,7 @@ public class JPanelGiangVien extends javax.swing.JPanel {
                 lamMoi();
 
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, ex.toString());
             }
 
         }
@@ -757,7 +744,7 @@ public class JPanelGiangVien extends javax.swing.JPanel {
             lamMoi();
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
 
     }//GEN-LAST:event_jButtonThemActionPerformed

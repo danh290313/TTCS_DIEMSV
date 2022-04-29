@@ -15,7 +15,7 @@ import quanly.JPanelChuyenNganh;
 import quanly.JPanelGiangVien;
 import quanly.JPanelLopTinChi;
 import com.toedter.calendar.JDateChooser;
-import doan.DangNhap;
+import design.DangNhap;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

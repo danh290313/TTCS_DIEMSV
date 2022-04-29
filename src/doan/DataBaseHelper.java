@@ -15,7 +15,7 @@ import java.sql.DriverManager;
 public class DataBaseHelper {
     
     
-    static String name,pass;
+    public static String name,pass;
     
     public static Connection getConnection() throws SQLException
     {   

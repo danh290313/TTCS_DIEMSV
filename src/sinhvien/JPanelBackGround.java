@@ -76,6 +76,8 @@ public class JPanelBackGround extends javax.swing.JPanel {
         jPanel3.setLayout(new java.awt.GridLayout(2, 0));
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Học kỳ 1:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(102, 102, 255))); // NOI18N
+        jPanel5.setMaximumSize(new java.awt.Dimension(32767, 267));
+        jPanel5.setPreferredSize(new java.awt.Dimension(507, 238));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -161,7 +163,7 @@ public class JPanelBackGround extends javax.swing.JPanel {
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(85, Short.MAX_VALUE)
+                .addContainerGap(40, Short.MAX_VALUE)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)

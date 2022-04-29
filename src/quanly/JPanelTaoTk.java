@@ -53,12 +53,12 @@ public class JPanelTaoTk extends javax.swing.JFrame {
         jPasswordFieldPass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel2.setText("ROLE:");
 
         jButtonTao.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jButtonTao.setForeground(new java.awt.Color(255, 255, 255));
         jButtonTao.setText("Tạo");
         jButtonTao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -67,7 +67,6 @@ public class JPanelTaoTk extends javax.swing.JFrame {
         });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Thoát");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,6 +138,7 @@ public class JPanelTaoTk extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonTaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTaoActionPerformed

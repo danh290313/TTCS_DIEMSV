@@ -26,6 +26,7 @@ public class JFrameLichSuDiemChuan extends javax.swing.JFrame {
     public JFrameLichSuDiemChuan(String maCn) {
         initComponents();
         initDataDiemChuan(maCn);
+        this.setLocationRelativeTo(null);
     }
 
     private JFrameLichSuDiemChuan() {
@@ -71,6 +72,7 @@ public class JFrameLichSuDiemChuan extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jScrollPane1.setBackground(new java.awt.Color(255, 204, 204));
 
@@ -99,7 +101,6 @@ public class JFrameLichSuDiemChuan extends javax.swing.JFrame {
         jLabel1.setText("LỊCH SỬ ĐIỂM CHUẨN CHUYÊN NGÀNH:");
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Thoát");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

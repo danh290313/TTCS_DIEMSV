@@ -2,9 +2,8 @@
 package design;
 
 import com.raven.event.EventMenuSelected;
-import doan.DangNhap;
-import doan.JPanelTaoGv;
 import java.awt.Color;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import quanly.*;
@@ -25,9 +24,14 @@ public class MainQl extends javax.swing.JFrame {
     private JPanelSinhVien QLSV = new JPanelSinhVien();
     private JPanelDoAnTotNghiep QLDA = new JPanelDoAnTotNghiep();
     private JPanelCapTkGv taoTKGV = new JPanelCapTkGv();
-   
+    private JPanelCapTkSv taoTkSv = new JPanelCapTkSv();
+    private JPanelThongKe ThongKe = new JPanelThongKe();
+    private JPanelThongKe2 ThongKe2 = new JPanelThongKe2();
     public MainQl() {
         initComponents();
+        
+        ImageIcon img = new ImageIcon("image//ptit.png");
+        this.setIconImage(img.getImage());
         //setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
         
@@ -56,6 +60,18 @@ public class MainQl extends javax.swing.JFrame {
                 else if (index == 9)
                 {
                     setForm(taoTKGV);
+                }
+                else if (index == 10)
+                {
+                    setForm(taoTkSv);
+                }
+                else if (index == 11)
+                {
+                    setForm(ThongKe);
+                }
+                else if (index == 12)
+                {
+                    setForm(ThongKe2);
                 }
                 
                 else if (index ==13)

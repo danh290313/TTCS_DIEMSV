@@ -144,10 +144,11 @@ public class PasswordChange extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lbConfirmPass)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addGap(26, 26, 26)
                                         .addComponent(btnOK)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGap(27, 27, 27)
                                         .addComponent(jButton2)))
-                                .addGap(0, 174, Short.MAX_VALUE))))
+                                .addGap(0, 130, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(35, 35, 35)
@@ -217,7 +218,7 @@ public class PasswordChange extends javax.swing.JFrame {
         if (flag1 == true && flag2 == true && flag3 == true) {
             try {
                 Connection con = DataBaseHelper.getConnection();
-                PreparedStatement smt = con.prepareStatement("Update sinhvien set matkhau=? where masv=?");
+                PreparedStatement smt = con.prepareStatement("Update taikhoansv set matkhau=CONVERT(VARCHAR(32), HashBytes('MD5', ?),2) where masv=?");
                 smt.setString(1, txtConfirmPass.getText());
                 smt.setString(2, lbName.getText());
                 smt.executeUpdate();
@@ -238,7 +239,7 @@ public class PasswordChange extends javax.swing.JFrame {
         } else {
             try {
                 Connection con = DataBaseHelper.getConnection();
-                PreparedStatement smt = con.prepareStatement("Select * from sinhvien where masv=? and matkhau=? ");
+                PreparedStatement smt = con.prepareStatement("select masv from taikhoansv where masv=? and matkhau=CONVERT(VARCHAR(32), HashBytes('MD5', ?), 2)");
                 smt.setString(1, lbName.getText());
                 smt.setString(2, txtPassCu.getText());
                 ResultSet  rs = smt.executeQuery();

@@ -5,6 +5,7 @@
  */
 package quanly;
 
+import static dao.Provider.searchMaMonHoc;
 import doan.DataBaseHelper;
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -63,7 +64,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
             jComboBoxMonHoc.setSelectedIndex(-1);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
 
@@ -90,7 +91,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
             jTableDSLTC.setModel(model);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
     
@@ -121,7 +122,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
             
             
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
         System.out.println("" + sql);
         
@@ -141,7 +142,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
         return "LTC" + String.valueOf(max + 1);
     }
@@ -160,25 +161,12 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
         return "MH" + String.valueOf(max + 1);
     }
 
-    public String searchMaMonHoc(String tenMH) {
-        String sql = " SELECT mamh FROM monhoc WHERE tenmh=N'" + tenMH + "'";
-        try {
-            Connection con = DataBaseHelper.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            if (rs.next()) {
-                return rs.getString(1);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
+    
 
     public String searchTenMonHoc(String maMH) {
         String sql = " SELECT tenmh FROM monhoc WHERE mamh=N'" + maMH + "'";
@@ -190,7 +178,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
                 return rs.getString(1);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
         return null;
     }
@@ -221,7 +209,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
     
@@ -236,7 +224,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
                 return rs.getString(1);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
         return null;
     }
@@ -249,7 +237,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
             int kt2 = smt.executeUpdate();
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
 
@@ -282,11 +270,11 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
 
             
             if (kt > 0) {
-                JOptionPane.showMessageDialog(this, "Cap nhat phan cong theo lop tin chi thanh cong");
+                JOptionPane.showMessageDialog(this, "Cập nhật phân công theo lớp tín chỉ thành công");
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
     
@@ -378,7 +366,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
             
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
     
@@ -833,11 +821,11 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
                 .addGap(34, 34, 34)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
                 .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(2, 2, 2)
-                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)))
+                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
                 .addGap(29, 29, 29))
@@ -898,21 +886,21 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
 
             int kt = smt.executeUpdate();
             if (kt > 0) {
-                JOptionPane.showMessageDialog(this, "insert thanh cong");
+                JOptionPane.showMessageDialog(this, "Thêm thành công");
             }
             insertPhanCong();
             initData();
             lamMoi();
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
 
 
     }//GEN-LAST:event_jButtonThemActionPerformed
 
     private void jButtonXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXoaActionPerformed
-        int kt = JOptionPane.showConfirmDialog(this, "Ban co muon xoa khong?");
+        int kt = JOptionPane.showConfirmDialog(this, " Bạn có muốn xóa không ? ");
         if (kt == JOptionPane.OK_OPTION) {
             String sql = "delete from loptinchi where maltc=?";
             try (Connection con = DataBaseHelper.getConnection();
@@ -921,20 +909,20 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
 
                 int kt2 = smt.executeUpdate();
                 if (kt2 > 0) {
-                    JOptionPane.showMessageDialog(this, "Xoa thanh cong!");
+                    JOptionPane.showMessageDialog(this, "Xóa thành công!");
                 }
                 initData();
                 lamMoi();
 
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, ex.toString());
             }
         }
     }//GEN-LAST:event_jButtonXoaActionPerformed
 
     private void jButtonSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuaActionPerformed
         // TODO add your handling code here:
-        int kt = JOptionPane.showConfirmDialog(this, "ban chan chan muon sua khong");
+        int kt = JOptionPane.showConfirmDialog(this, "Bạn có muốn sửa không ?");
         if (kt == JOptionPane.OK_OPTION) {
             String sql = "update loptinchi set [namhoc]=?,[hocki]=?,[sltoithieu]=?, [sltoida]=?, [ngaybd]=?, [ngaykt]=?, [mamh]=? where [maltc] = ?";
             try (Connection con = DataBaseHelper.getConnection();
@@ -951,7 +939,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
 
                 int kt2 = smt.executeUpdate();
                 if (kt2 > 0) {
-                    JOptionPane.showMessageDialog(this, "update thanh cong");
+                    JOptionPane.showMessageDialog(this, "Cập nhật thành công");
                 }
                 xoaPhanCongTheoTinChi();
                 insertPhanCong();

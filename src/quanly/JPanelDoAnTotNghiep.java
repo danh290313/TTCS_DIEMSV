@@ -61,7 +61,7 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
             
             
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
     
@@ -77,7 +77,7 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
             
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }
     
@@ -316,7 +316,7 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
         }
         catch(Exception ex)
         {
-           ex.printStackTrace();
+           JOptionPane.showMessageDialog(this, ex.toString());
         }
             
 
@@ -327,7 +327,7 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
     private void jButtonSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuaActionPerformed
         //        // TODO add your handling code here:
 
-        int kt = JOptionPane.showConfirmDialog(this, "ban chan chan muon sua khong");
+        int kt = JOptionPane.showConfirmDialog(this, "Bạn có muốn sửa không ?");
         if (kt == JOptionPane.CANCEL_OPTION) {
             return;
         } else if (kt == JOptionPane.OK_OPTION) {
@@ -346,7 +346,7 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
 
                 int kt2 = smt.executeUpdate();
                 if (kt2 > 0) {
-                    JOptionPane.showMessageDialog(this, "update thanh cong");
+                    JOptionPane.showMessageDialog(this, "Cập nhật thành công");
                 }
                 initData();
                 lamMoi();
