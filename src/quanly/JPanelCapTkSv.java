@@ -5,8 +5,9 @@
  */
 package quanly;
 
-import doan.DataBaseHelper;
+import design.DataBaseHelper;
 import java.awt.Color;
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,15 +29,17 @@ public class JPanelCapTkSv extends javax.swing.JPanel {
     public JPanelCapTkSv() {
         initComponents();
         initData();
+        jButtonXoa.setEnabled(false);
         jLabelMaSv.setForeground(Color.RED);
+        jTableDSSV.getTableHeader().setFont( new Font( "Tahoma" , Font.BOLD, 14));
     }
     boolean  flag2 = false, flag3 = false;
     DefaultTableModel model = new DefaultTableModel();
     public void initData()
     {   
         model = (DefaultTableModel) jTableDSSV.getModel();
-        String sql = "SELECT masv,hoten,phai,ngaysinh,diachi, CASE WHEN (masv IN (SELECT masv FROM taikhoansv)) THEN 1  ELSE 0\n" +
-"END AS DATAOTK FROM sinhvien";
+        String sql = "SELECT masv,hoten,phai,ngaysinh,diachi, CASE WHEN (masv IN (SELECT maTK FROM taikhoan)) THEN 1  ELSE 0\n" +
+"END AS DATAOTK FROM sinhvien order by cast(substring(MaSV,3,10) as int)";
         model.setRowCount(0);
         try(Connection con = DataBaseHelper.getConnection();
                 Statement smt = con.createStatement();)
@@ -65,7 +68,7 @@ public class JPanelCapTkSv extends javax.swing.JPanel {
     public void timKiemSv(String s)
     {   
         model = (DefaultTableModel) jTableDSSV.getModel();
-        String sql = "SELECT masv,hoten,phai,ngaysinh,diachi, CASE WHEN (masv IN (SELECT masv FROM taikhoansv)) THEN 1  ELSE 0\n" +
+        String sql = "SELECT masv,hoten,phai,ngaysinh,diachi, CASE WHEN (masv IN (SELECT maTK FROM taikhoan)) THEN 1  ELSE 0\n" +
 "END AS DATAOTK FROM sinhvien sv where sv.masv like N'%"+s+"%' or hoten like N'%"+s+"%' or diachi like N'%"+s+"%' or ngaysinh like N'%"+s+"%'";
         model.setRowCount(0);
         try(Connection con = DataBaseHelper.getConnection();
@@ -103,27 +106,26 @@ public class JPanelCapTkSv extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabelTtk = new javax.swing.JLabel();
-        jTextTenTk = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableDSSV = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         jTextTimKiem = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        txtPassNew = new javax.swing.JPasswordField();
-        jLabel3 = new javax.swing.JLabel();
-        txtConfirmPass = new javax.swing.JPasswordField();
-        jButtonTao = new javax.swing.JButton();
-        btnOK = new javax.swing.JButton();
-        lbPassNew = new javax.swing.JLabel();
-        lbConfirmPass = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabelMaSv = new javax.swing.JLabel();
+        jLabelTtk = new javax.swing.JLabel();
+        jTextTenTk = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        lbPassNew = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        lbConfirmPass = new javax.swing.JLabel();
+        btnOK = new javax.swing.JButton();
+        jButtonXoa = new javax.swing.JButton();
+        jButtonLamMoi = new javax.swing.JButton();
 
-        jLabelTtk.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabelTtk.setText("Tên tài khoản:");
-
-        jTextTenTk.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        setPreferredSize(new java.awt.Dimension(956, 608));
 
         jScrollPane1.setBackground(new java.awt.Color(255, 204, 204));
 
@@ -137,7 +139,15 @@ public class JPanelCapTkSv extends javax.swing.JPanel {
             new String [] {
                 "Mã Sinh Viên", "Họ và Tên", "Phái", "NGày Sinh", "Địa Chỉ", "Tài Khoản"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableDSSV.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableDSSVMouseClicked(evt);
@@ -145,7 +155,7 @@ public class JPanelCapTkSv extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTableDSSV);
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel7.setText("Tìm Kiếm:");
         jLabel7.setMaximumSize(new java.awt.Dimension(90, 22));
         jLabel7.setPreferredSize(new java.awt.Dimension(90, 13));
@@ -163,31 +173,43 @@ public class JPanelCapTkSv extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel2.setText("Mật khẩu mới:");
+        jPanel2.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel2.setMinimumSize(new java.awt.Dimension(89, 32));
+        jPanel2.setOpaque(false);
+        jPanel2.setPreferredSize(new java.awt.Dimension(89, 32));
+        jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        txtPassNew.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtPassNewCaretUpdate(evt);
-            }
-        });
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setText("Tài Khoản Sinh Viên");
+        jPanel2.add(jLabel1, new java.awt.GridBagConstraints());
 
-        jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel3.setText("Nhập lại mật khẩu:");
+        jPanel1.setLayout(new java.awt.GridLayout(7, 2));
 
-        txtConfirmPass.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtConfirmPassCaretUpdate(evt);
-            }
-        });
+        jLabel12.setBackground(new java.awt.Color(255, 204, 204));
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel12.setText("       Mã Sinh Viên: ");
+        jPanel1.add(jLabel12);
 
-        jButtonTao.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jButtonTao.setText("Xóa");
-        jButtonTao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonTaoActionPerformed(evt);
-            }
-        });
+        jLabelMaSv.setBackground(new java.awt.Color(255, 204, 204));
+        jLabelMaSv.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jPanel1.add(jLabelMaSv);
+
+        jLabelTtk.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabelTtk.setText("       Tài Khoản:");
+        jPanel1.add(jLabelTtk);
+
+        jTextTenTk.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jPanel1.add(jTextTenTk);
+        jPanel1.add(jLabel9);
+
+        lbPassNew.setForeground(new java.awt.Color(255, 0, 0));
+        lbPassNew.setText(" ");
+        jPanel1.add(lbPassNew);
+        jPanel1.add(jLabel10);
+
+        lbConfirmPass.setForeground(new java.awt.Color(255, 0, 0));
+        lbConfirmPass.setText(" ");
+        jPanel1.add(lbConfirmPass);
 
         btnOK.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         btnOK.setText("Tạo");
@@ -196,19 +218,23 @@ public class JPanelCapTkSv extends javax.swing.JPanel {
                 btnOKActionPerformed(evt);
             }
         });
+        jPanel1.add(btnOK);
 
-        lbPassNew.setForeground(new java.awt.Color(255, 0, 0));
-        lbPassNew.setText(" ");
+        jButtonXoa.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jButtonXoa.setText("Xóa");
+        jButtonXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonXoaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonXoa);
 
-        lbConfirmPass.setForeground(new java.awt.Color(255, 0, 0));
-        lbConfirmPass.setText(" ");
-
-        jLabel12.setBackground(new java.awt.Color(255, 204, 204));
-        jLabel12.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        jLabel12.setText("Mã Sinh Viên: ");
-
-        jLabelMaSv.setBackground(new java.awt.Color(255, 204, 204));
-        jLabelMaSv.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jButtonLamMoi.setText("Làm Mới");
+        jButtonLamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLamMoiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -219,78 +245,44 @@ public class JPanelCapTkSv extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(186, 186, 186)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelTtk)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGap(3, 3, 3)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtPassNew)
-                                    .addComponent(jTextTenTk)
-                                    .addComponent(txtConfirmPass, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                                    .addComponent(lbPassNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lbConfirmPass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(119, 119, 119)
-                                .addComponent(jButtonTao, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabelMaSv, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(69, 69, 69)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonLamMoi)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(248, 248, 248)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(185, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 34, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabelMaSv, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelTtk)
-                    .addComponent(jTextTenTk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtPassNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButtonLamMoi)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbPassNew)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtConfirmPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbConfirmPass)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonTao, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTableDSSVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDSSVMouseClicked
-        // TODO add your handling code here:
+        
+        jButtonXoa.setEnabled(true);
         int row = jTableDSSV.getSelectedRow();
         if(row>=0)
         {
@@ -308,76 +300,13 @@ public class JPanelCapTkSv extends javax.swing.JPanel {
         timKiemSv(jTextTimKiem.getText());
     }//GEN-LAST:event_jTextTimKiemKeyReleased
 
-    private void txtPassNewCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtPassNewCaretUpdate
-//        if (txtPassNew.getText().trim().equals("")) {
-//            lbPassNew.setText(" ");
-//            btnOK.setEnabled(false);
-//        } else if (txtPassNew.getText().equals(txtPassCu.getText())) {
-//            lbPassNew.setText("Mật khẩu mới phải khác mật khẩu cũ.");
-//            lbPassNew.setForeground(Color.red);
-//            btnOK.setEnabled(false);
-//        } else {
-//            
-//        }
-        
-        char x;
-            for (int i = 0; i < txtPassNew.getText().length(); i++) {
-                x = txtPassNew.getText().charAt(i);
-                if (x == ' ') {
-                    lbPassNew.setText("Mật khẩu không thể chứa khoảng trắng.");
-                    lbPassNew.setForeground(Color.red);
-                    flag2 = false;
-                    btnOK.setEnabled(false);
-                    return;
-                }
-            }
-            while (true) {
-                if (txtPassNew.getText().length() < 6 || txtPassNew.getText().length() > 18) {
-                    lbPassNew.setText("Độ dài mật khẩu trong khoảng 6-18 kí tự.");
-                    lbPassNew.setForeground(Color.red);
-                    flag2 = false;
-                    btnOK.setEnabled(false);
-                    return;
-                } else {
-                    lbPassNew.setText("Mật khẩu hợp lệ.");
-                    lbPassNew.setForeground(Color.blue);
-                    flag2 = true;
-                    btnOK.setEnabled(false);
-                    break;
-                }
-            }
-    }//GEN-LAST:event_txtPassNewCaretUpdate
-
-    private void txtConfirmPassCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtConfirmPassCaretUpdate
-        if (txtConfirmPass.getText().trim().equals("")) {
-            lbConfirmPass.setText(" ");
-            btnOK.setEnabled(false);
-        } else {
-            while (true) {
-                if (!txtConfirmPass.getText().equals(txtPassNew.getText())) {
-                    lbConfirmPass.setText("Nhập lại mật khẩu phải giống mật khẩu.");
-                    lbConfirmPass.setForeground(Color.red);
-                    flag3 = false;
-                    btnOK.setEnabled(false);
-                    return;
-                } else {
-                    lbConfirmPass.setText("Hợp lệ.");
-                    lbConfirmPass.setForeground(Color.blue);
-                    flag3 = true;
-                    btnOK.setEnabled(true);
-                    break;
-                }
-            }
-        }
-    }//GEN-LAST:event_txtConfirmPassCaretUpdate
-
-    private void jButtonTaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTaoActionPerformed
+    private void jButtonXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXoaActionPerformed
         // TODO add your handling code here:
         int kt = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa không ?");
         if (kt == JOptionPane.CANCEL_OPTION) {
             return;
         } else if (kt == JOptionPane.OK_OPTION) {
-            String sql = "delete from taikhoansv where masv=?";
+            String sql = "delete from taikhoan where maTK=?";
             try (Connection con = DataBaseHelper.getConnection();
                 PreparedStatement smt = con.prepareStatement(sql);) {
                 smt.setString(1, jLabelMaSv.getText());
@@ -393,17 +322,20 @@ public class JPanelCapTkSv extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, ex.toString());
             }
         }
-    }//GEN-LAST:event_jButtonTaoActionPerformed
+    }//GEN-LAST:event_jButtonXoaActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         // TODO add your handling code here:
-        if (flag2 == true && flag3 == true) {
-            String sql = "insert into taikhoansv values(?,CONVERT(VARCHAR(32), HashBytes('MD5', ?), 2),?)";
+        
+            String sql = "insert into taikhoan values(?,?,CONVERT(VARCHAR(32), HashBytes('MD5', ?), 2),?)";
             try (Connection con = DataBaseHelper.getConnection();
                 PreparedStatement smt = con.prepareStatement(sql)) {
-                smt.setString(1, jTextTenTk.getText());
-                smt.setString(2, txtConfirmPass.getText());
-                smt.setString(3, jLabelMaSv.getText());
+                
+                smt.setString(1, jLabelMaSv.getText());
+                smt.setString(2, jTextTenTk.getText());
+                smt.setString(3, "123456");
+                smt.setString(4, "VT3");
+               
                 int kt2 = smt.executeUpdate();
                 if (kt2 > 0) {
                     JOptionPane.showMessageDialog(this, "Tạo tài khoản thành công");
@@ -413,30 +345,42 @@ public class JPanelCapTkSv extends javax.swing.JPanel {
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, ex.toString());
             }
-        } 
         
-        else {
-            JOptionPane.showMessageDialog(null, "Tạo tài khoản thất bại");
-        }
+        
+        
     }//GEN-LAST:event_btnOKActionPerformed
+
+    public void lamMoi() {       
+        initData();
+        jLabelMaSv.setText("");
+        jTextTenTk.setText("");
+        lbPassNew.setText("");
+        jTextTimKiem.setText("");
+        jButtonXoa.setEnabled(false);
+    }
+    private void jButtonLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLamMoiActionPerformed
+        lamMoi();
+    }//GEN-LAST:event_jButtonLamMoiActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOK;
-    private javax.swing.JButton jButtonTao;
+    private javax.swing.JButton jButtonLamMoi;
+    private javax.swing.JButton jButtonXoa;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelMaSv;
     private javax.swing.JLabel jLabelTtk;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableDSSV;
     private javax.swing.JTextField jTextTenTk;
     private javax.swing.JTextField jTextTimKiem;
     private javax.swing.JLabel lbConfirmPass;
     private javax.swing.JLabel lbPassNew;
-    private javax.swing.JPasswordField txtConfirmPass;
-    private javax.swing.JPasswordField txtPassNew;
     // End of variables declaration//GEN-END:variables
 }

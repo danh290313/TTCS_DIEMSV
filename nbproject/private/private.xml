@@ -3,27 +3,46 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/quanly/JPanelCapTkGv.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/quanly/JPanelGiangVien.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/quanly/JPanelThongKe2.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/quanly/JPanelThongKe.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/quanly/JFrameLichSuDiemChuan.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/design/DangNhap.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/quanly/JPanelCapTkSv.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/sinhvien/Information.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/design/MainQl.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/quanly/JPanelDoAnTotNghiep.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/sinhvien/JPanelBackGround.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/quanly/JPanelChuyenNganh.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/sinhvien/PasswordChange.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/quanly/JPanelDangKy.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/design/MainSinhVien.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/quanly/JPanelLopTinChi.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/quanly/JPanelMonHoc.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/quanly/JPanelTaoTk.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/dao/Provider.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/src/quanly/JPanelSinhVien.java</file>
-            <file>file:/C:/Users/hyipd/Documents/NetBeansProjects/doan/nbproject/build-impl.xml</file>
+            <file>file:/F:/doanHungMoi/src/TTCS/JPanelTrigger.java</file>
+            <file>file:/F:/doanHungMoi/src/design/formRoleLogin.java</file>
+            <file>file:/F:/doanHungMoi/src/quanly/JPanelDangKy_ChamDiem.java</file>
+            <file>file:/F:/doanHungMoi/src/TTCS/JPanelXoaLoginUser.java</file>
+            <file>file:/F:/doanHungMoi/src/com/raven/chart/Menu.java</file>
+            <file>file:/F:/doanHungMoi/src/com/raven/chart/Card.java</file>
+            <file>file:/F:/doanHungMoi/src/BACKUP_RESTORE/Restore.java</file>
+            <file>file:/F:/doanHungMoi/src/BACKUP_RESTORE/BackUpDifferentail.java</file>
+            <file>file:/F:/doanHungMoi/src/TTCS/JPanelThayDoiMk.java</file>
+            <file>file:/F:/doanHungMoi/src/quanly/JPanelChuyenNganh.java</file>
+            <file>file:/F:/doanHungMoi/src/quanly/JPanelSinhVien.java</file>
+            <file>file:/F:/doanHungMoi/src/design/MainQl.java</file>
+            <file>file:/F:/doanHungMoi/src/com/raven/chart/Chart.java</file>
+            <file>file:/F:/doanHungMoi/src/TTCS/JPanelRole.java</file>
+            <file>file:/F:/doanHungMoi/src/TTCS/JPanelXoaLoginKhoiRole.java</file>
+            <file>file:/F:/doanHungMoi/src/quanly/JPanelDoAnTotNghiep.java</file>
+            <file>file:/F:/doanHungMoi/src/design/login.java</file>
+            <file>file:/F:/doanHungMoi/src/design/DataBaseHelper.java</file>
+            <file>file:/F:/doanHungMoi/src/com/raven/chart/blankchart2/Chart.java</file>
+            <file>file:/F:/doanHungMoi/src/swing/PanelBorder.java</file>
+            <file>file:/F:/doanHungMoi/src/design/DangNhap.java</file>
+            <file>file:/F:/doanHungMoi/src/BACKUP_RESTORE/RestoreDIFF.java</file>
+            <file>file:/F:/doanHungMoi/src/BACKUP_RESTORE/BACKUPAUTO.java</file>
+            <file>file:/F:/doanHungMoi/src/com/raven/chart/SeriesSize.java</file>
+            <file>file:/F:/doanHungMoi/src/com/raven/chart/ButtonMenu.java</file>
+            <file>file:/F:/doanHungMoi/src/quanly/JPanelCapTkSv.java</file>
+            <file>file:/F:/doanHungMoi/src/TTCS/JPanelThemLoginVaoRole.java</file>
+            <file>file:/F:/doanHungMoi/src/quanly/JPanelDangKy.java</file>
+            <file>file:/F:/doanHungMoi/src/quanly/JPanelGiangVien.java</file>
+            <file>file:/F:/doanHungMoi/src/com/raven/chart/ModelLegend.java</file>
+            <file>file:/F:/doanHungMoi/src/TTCS/FormCapQuyen.java</file>
+            <file>file:/F:/doanHungMoi/src/BACKUP_RESTORE/FormBackUp.java</file>
+            <file>file:/F:/doanHungMoi/src/com/raven/chart/Header.java</file>
+            <file>file:/F:/doanHungMoi/src/BACKUP_RESTORE/BackUp.java</file>
+            <file>file:/F:/doanHungMoi/src/TTCS/JPanelCapQuyenChoRole.java</file>
+            <file>file:/F:/doanHungMoi/src/TTCS/JPanelTaoLogin.java</file>
+            <file>file:/F:/doanHungMoi/src/com/raven/chart/LabelColor.java</file>
+            <file>file:/F:/doanHungMoi/src/quanly/JPanelLopTinChi.java</file>
+            <file>file:/F:/doanHungMoi/src/quanly/JPanelCapTkGv.java</file>
+            <file>file:/F:/doanHungMoi/src/design/MainSinhVien.java</file>
         </group>
     </open-files>
 </project-private>

@@ -6,8 +6,9 @@
 package quanly;
 
 import static dao.Provider.searchMaMonHoc;
-import doan.DataBaseHelper;
+import design.DataBaseHelper;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -50,10 +51,12 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
         jPanelGv3.setVisible(false);
         jSpinnerSlGv.setEnabled(false);
         jButtonLocGV.setEnabled(false);
+        jTableDSLTC.getTableHeader().setFont( new Font( "Tahoma" , Font.BOLD, 14));
 
     }
 
     public void initjComboBoxMaMH() {
+        jComboBoxMonHoc.removeAllItems();
         String sql = "select tenmh from monhoc";
         try (Connection con = DataBaseHelper.getConnection();
                 PreparedStatement smt = con.prepareStatement(sql);) {
@@ -70,7 +73,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
 
     public void initData() {
         model = (DefaultTableModel) jTableDSLTC.getModel();
-        String sql = "select * from loptinchi";
+        String sql = "select * from loptinchi order by cast(substring(MaLTC,4,10) as int)";
         model.setRowCount(0);
         try (Connection con = DataBaseHelper.getConnection();
                 Statement smt = con.createStatement();) {
@@ -195,6 +198,8 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
         jButtonSua.setEnabled(false);
         jButtonXoa.setEnabled(false);
         jTableDSLTC.setRowSelectionAllowed(false);
+        initjComboBoxMaMH();
+        initData();
     }
 
     public void initjComboBoxGvDayMH(JComboBox comBox) {
@@ -461,12 +466,14 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridLayout(0, 2));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Mã LTC:");
         jPanel2.add(jLabel2);
+
+        jLabelMaLTC.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jPanel2.add(jLabelMaLTC);
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setText("Năm học:");
         jPanel2.add(jLabel4);
 
@@ -478,41 +485,43 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
         });
         jPanel2.add(jTextNamHoc);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setText("Học Kì:");
         jPanel2.add(jLabel5);
 
+        jComboBoxHocKi.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jComboBoxHocKi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "HK1", "HK2" }));
         jPanel2.add(jComboBoxHocKi);
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setText("SL tối thiểu:");
         jPanel2.add(jLabel6);
 
         jTextSLToiThieu.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jPanel2.add(jTextSLToiThieu);
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel7.setText("SL tối đa:");
         jPanel2.add(jLabel7);
 
         jTextSLToiDa.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jPanel2.add(jTextSLToiDa);
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel8.setText("Ngày BĐ:");
         jPanel2.add(jLabel8);
         jPanel2.add(jDateBd);
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel9.setText("Ngày KT:");
         jPanel2.add(jLabel9);
         jPanel2.add(jDateKt);
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel10.setText("Thuộc môn học:");
         jPanel2.add(jLabel10);
 
+        jComboBoxMonHoc.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jComboBoxMonHoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxMonHocActionPerformed(evt);
@@ -528,7 +537,15 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
             new String [] {
                 "MALTC", "NAMHOC", "HOCKI", "SOLGTOITHIEU", "SOLGTOIDA", "NGAYBD", "NGAYKT", "TENMH"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableDSLTC.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableDSLTCMouseClicked(evt);
@@ -771,7 +788,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
             }
         });
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel14.setText("Tìm Kiếm:");
         jLabel14.setMaximumSize(new java.awt.Dimension(90, 22));
         jLabel14.setPreferredSize(new java.awt.Dimension(90, 13));
@@ -809,7 +826,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -819,7 +836,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
                         .addGap(32, 32, 32)
                         .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(34, 34, 34)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -827,7 +844,7 @@ public class JPanelLopTinChi extends javax.swing.JPanel {
                         .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                 .addGap(29, 29, 29))
         );
     }// </editor-fold>//GEN-END:initComponents

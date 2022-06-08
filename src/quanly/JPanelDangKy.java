@@ -5,8 +5,10 @@
  */
 package quanly;
 
-import doan.DataBaseHelper;
+import static dao.Provider.searchMaMonHoc;
+import design.DataBaseHelper;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -38,7 +40,8 @@ public class JPanelDangKy extends javax.swing.JPanel {
         jRadioButton1.setSelected(true);
         jButtonXoa.setEnabled(false);
         jButtonSua.setEnabled(false);
-        
+        jTableDSLTC.getTableHeader().setFont( new Font( "Tahoma" , Font.BOLD, 14));
+        jTableDSSVDangKy.getTableHeader().setFont( new Font( "Tahoma" , Font.BOLD, 14));
     }
     
     //--- Bảng LTC
@@ -143,7 +146,7 @@ public class JPanelDangKy extends javax.swing.JPanel {
             JOptionPane.showMessageDialog
                     (this,jTableDSSVDangKy.getValueAt(row, 0).toString().toUpperCase()+" đã được "
                         +jTableDSSVDangKy.getValueAt(row, 1).toString().toUpperCase()+" đăng ký!");
-            JOptionPane.showMessageDialog(this, ex.toString());
+//            JOptionPane.showMessageDialog(this, ex.toString());
             return false;           
         }
         return true;
@@ -172,6 +175,7 @@ public class JPanelDangKy extends javax.swing.JPanel {
         jButtonXoa.setEnabled(false);
         jButtonSua.setEnabled(false);   
         timLTC.setText("");
+        jTableDSLTC.setEnabled(true);
         initData(1);
     }
     @Override
@@ -221,11 +225,11 @@ public class JPanelDangKy extends javax.swing.JPanel {
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jTextMSSV = new javax.swing.JTextField();
-        jButtonTimKiem = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         timLTC = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jButtonTimKiem = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 204));
         setPreferredSize(new java.awt.Dimension(1050, 700));
@@ -309,7 +313,15 @@ public class JPanelDangKy extends javax.swing.JPanel {
             new String [] {
                 "LopTinChi", "MSSV", "DiemCC", "DiemTH", "DiemCK", "Huy"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableDSSVDangKy.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableDSSVDangKyMouseClicked(evt);
@@ -375,7 +387,15 @@ public class JPanelDangKy extends javax.swing.JPanel {
             new String [] {
                 "MALTC", "NAMHOC", "HOCKI", "SOLGTOITHIEU", "SOLGTOIDA", "NGAYBD", "NGAYKT", "TENMH"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableDSLTC.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableDSLTCMouseClicked(evt);
@@ -402,14 +422,6 @@ public class JPanelDangKy extends javax.swing.JPanel {
         });
         jPanel5.add(jTextMSSV);
 
-        jButtonTimKiem.setText("Tìm kiếm");
-        jButtonTimKiem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonTimKiemActionPerformed(evt);
-            }
-        });
-        jPanel5.add(jButtonTimKiem);
-
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         jLabel3.setText("Danh sách LTC hiện có:");
 
@@ -420,6 +432,13 @@ public class JPanelDangKy extends javax.swing.JPanel {
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         jLabel10.setText("Danh sách đăng ký:");
+
+        jButtonTimKiem.setText("Tìm kiếm");
+        jButtonTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTimKiemActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -451,35 +470,42 @@ public class JPanelDangKy extends javax.swing.JPanel {
                                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(349, 349, 349)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonTimKiem)
+                                .addGap(268, 268, 268)))
                         .addGap(105, 105, 105)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonTimKiem)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(timLTC, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                            .addComponent(timLTC, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                             .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
                         .addGap(14, 14, 14)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -506,14 +532,37 @@ public class JPanelDangKy extends javax.swing.JPanel {
 
     private void jButtonLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLamMoiActionPerformed
         lamMoi();
-        jButtonThem.setEnabled(false);
+        jButtonThem.setEnabled(true);
         jTableDSSVDangKy.setRowSelectionAllowed(false);
         jTableDSLTC.setRowSelectionAllowed(false);  
     }//GEN-LAST:event_jButtonLamMoiActionPerformed
 
     private void jButtonThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemActionPerformed
+        
         if ("".equals(jTextMSSV.getText()))
+        {
             JOptionPane.showMessageDialog(this, "MSSV không được để trống.");
+            return;
+        }
+        
+        if(Float.parseFloat(jTextCC.getText())<0 || Float.parseFloat(jTextCC.getText())>10)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập 0<=điểm<=10 .");
+            jTextCC.grabFocus();
+            return;
+        }
+        if(Float.parseFloat(jTextTH.getText())<0 || Float.parseFloat(jTextTH.getText())>10)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập 0<=điểm<=10.");
+            jTextTH.grabFocus();
+            return;
+        }
+        if(Float.parseFloat(jTextCK.getText())<0 || Float.parseFloat(jTextCK.getText())>10)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập 0<=điểm<=10.");
+            jTextCK.grabFocus();
+            return;
+        }
         if (insertDangki())
             JOptionPane.showMessageDialog(this, "Thêm thành công!");
         lamMoi();
@@ -534,10 +583,52 @@ public class JPanelDangKy extends javax.swing.JPanel {
 
     private void jButtonSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuaActionPerformed
         // TODO add your handling code here:
+        int row = jTableDSLTC.getSelectedRow();
         int kt = JOptionPane.showConfirmDialog(this, "Bạn có muốn sửa?");
         if (kt == JOptionPane.OK_OPTION) {
-            xoaDangKiTheoSV();
-            insertDangki();
+//            xoaDangKiTheoSV();
+//            insertDangki();
+            String sql = "update DangKi set [DiemCC]=?,[DiemGK]=?,[DiemCK]=?,[Huy]=? where [MaSV]=? and [MaLTC]=?";
+            try (Connection con = DataBaseHelper.getConnection();
+                    PreparedStatement smt = con.prepareStatement(sql);) {
+                
+                smt.setFloat(1, Float.parseFloat(jTextCC.getText()));
+                smt.setFloat(2, Float.parseFloat(jTextTH.getText()));
+                smt.setFloat(3, Float.parseFloat(jTextCK.getText()));
+                if (jRadioButton1.isSelected()) {
+                    smt.setBoolean(4, false);
+                } else {
+                    smt.setBoolean(4, true);
+                }
+                
+                smt.setString(5, jTextMSSV.getText());
+                smt.setString(6, timLTC.getText());
+                
+                int kt2 = smt.executeUpdate();
+                if (kt2 > 0) {
+                    JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+                }
+                lamMoi();
+            } catch (SQLException ex) {
+                if(Float.parseFloat(jTextCC.getText())<0 || Float.parseFloat(jTextCC.getText())>10)
+                {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập 0<=điểm<=10 .");
+                    jTextCC.grabFocus();
+                    return;
+                }
+                if(Float.parseFloat(jTextTH.getText())<0 || Float.parseFloat(jTextTH.getText())>10)
+                {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập 0<=điểm<=10.");
+                    jTextTH.grabFocus();
+                    return;
+                }
+                if(Float.parseFloat(jTextCK.getText())<0 || Float.parseFloat(jTextCK.getText())>10)
+                {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập 0<=điểm<=10.");
+                    jTextCK.grabFocus();
+                    return;
+                }
+            }
             JOptionPane.showMessageDialog(this, "Cập nhật thông tin đăng ký thành công");
             lamMoi();    
         }
@@ -545,7 +636,6 @@ public class JPanelDangKy extends javax.swing.JPanel {
 
     private void jTableDSLTCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDSLTCMouseClicked
 
-        jButtonThem.setEnabled(true);
         jTableDSLTC.setRowSelectionAllowed(true);
         int row = jTableDSLTC.getSelectedRow();
         timLTC.setText(jTableDSLTC.getValueAt(row, 0).toString().toUpperCase());
@@ -557,6 +647,7 @@ public class JPanelDangKy extends javax.swing.JPanel {
         jButtonXoa.setEnabled(true);
         jButtonSua.setEnabled(true);
         jTableDSSVDangKy.setRowSelectionAllowed(true);
+        jTableDSLTC.setEnabled(false);
         int row = jTableDSSVDangKy.getSelectedRow();
         jTextMSSV.setText(jTableDSSVDangKy.getValueAt(row, 1).toString().toUpperCase());
         timLTC.setText(jTableDSSVDangKy.getValueAt(row, 0).toString().toUpperCase());

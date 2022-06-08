@@ -5,7 +5,7 @@
  */
 package quanly;
 
-import doan.DataBaseHelper;
+import design.DataBaseHelper;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

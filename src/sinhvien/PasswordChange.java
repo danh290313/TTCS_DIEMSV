@@ -7,8 +7,8 @@ package sinhvien;
  */
 
 
-import doan.DataBaseHelper;
-import doan.DataBaseHelper;
+import design.DataBaseHelper;
+import design.DataBaseHelper;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -218,7 +218,7 @@ public class PasswordChange extends javax.swing.JFrame {
         if (flag1 == true && flag2 == true && flag3 == true) {
             try {
                 Connection con = DataBaseHelper.getConnection();
-                PreparedStatement smt = con.prepareStatement("Update taikhoansv set matkhau=CONVERT(VARCHAR(32), HashBytes('MD5', ?),2) where masv=?");
+                PreparedStatement smt = con.prepareStatement("Update taikhoan set matkhau=CONVERT(VARCHAR(32), HashBytes('MD5', ?),2) where maTK=?");
                 smt.setString(1, txtConfirmPass.getText());
                 smt.setString(2, lbName.getText());
                 smt.executeUpdate();
@@ -239,7 +239,7 @@ public class PasswordChange extends javax.swing.JFrame {
         } else {
             try {
                 Connection con = DataBaseHelper.getConnection();
-                PreparedStatement smt = con.prepareStatement("select masv from taikhoansv where masv=? and matkhau=CONVERT(VARCHAR(32), HashBytes('MD5', ?), 2)");
+                PreparedStatement smt = con.prepareStatement("select maTK from taikhoan where maTK=? and matkhau=CONVERT(VARCHAR(32), HashBytes('MD5', ?), 2)");
                 smt.setString(1, lbName.getText());
                 smt.setString(2, txtPassCu.getText());
                 ResultSet  rs = smt.executeQuery();

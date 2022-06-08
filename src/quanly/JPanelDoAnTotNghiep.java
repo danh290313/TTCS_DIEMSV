@@ -5,8 +5,9 @@
  */
 package quanly;
 
-import doan.DataBaseHelper;
+import design.DataBaseHelper;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -33,6 +34,7 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
         initComponents();
         initData();
         initboxGv();
+        jTableDoAn.getTableHeader().setFont( new Font( "Tahoma" , Font.BOLD, 14));
     }
     DefaultTableModel model = new DefaultTableModel();
     public void initData()
@@ -82,12 +84,13 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
     }
     
     public void lamMoi() {
+        jLabelMaDa.setText("");
         jTextDiemHD.setText("");
         jTextDiemPB.setText("");
         jTextAreaNDDoAn.setText("");
         jComboBoxGVHD.setSelectedIndex(-1);
         jComboBoxGVPB.setSelectedIndex(-1);
-        jTableDoAn.setRowSelectionAllowed(false);
+        //jTableDoAn.setRowSelectionAllowed(false);
         initData();
     }
 
@@ -136,6 +139,8 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
         jLabel4.setText("Mã Đồ Án: ");
 
         jLabelMaDa.setBackground(new java.awt.Color(204, 255, 0));
+        jLabelMaDa.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabelMaDa.setForeground(new java.awt.Color(255, 51, 51));
 
         jScrollPane1.setBackground(new java.awt.Color(255, 204, 204));
 
@@ -149,7 +154,15 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
             new String [] {
                 "Mã Đồ Án", "Điểm HD", "Điểm PB", "Nội dung", "Mã SV", "Mã GVHD", "Mã GVPB"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableDoAn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableDoAnMouseClicked(evt);
@@ -161,13 +174,13 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
         jPanel2.setLayout(new java.awt.GridLayout(2, 2, 20, 0));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jLabel13.setText("Mã Giáo Viên hội đồng:");
+        jLabel13.setText("Mã Giảng Viên hướng dẫn:");
         jPanel2.add(jLabel13);
 
         jPanel2.add(jComboBoxGVHD);
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jLabel14.setText("Mã Giáo Viên phản biện:");
+        jLabel14.setText("Mã Giảng Viên phản biện:");
         jPanel2.add(jLabel14);
 
         jPanel2.add(jComboBoxGVPB);
@@ -176,7 +189,7 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
         jPanel3.setLayout(new java.awt.GridLayout(2, 2, 20, 0));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jLabel7.setText("Điểm hội đồng:");
+        jLabel7.setText("Điểm hướng dẫn:");
         jPanel3.add(jLabel7);
 
         jTextDiemHD.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
@@ -241,14 +254,14 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addGap(861, 861, 861))
                             .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(117, 117, 117)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(33, 33, 33))
             .addGroup(layout.createSequentialGroup()
                 .addGap(228, 228, 228)
@@ -352,7 +365,18 @@ public class JPanelDoAnTotNghiep extends javax.swing.JPanel {
                 lamMoi();
 
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, ex.toString());
+                if(Float.parseFloat(jTextDiemHD.getText())<0 || Float.parseFloat(jTextDiemHD.getText())>10)
+                {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập 0<=điểm<=10.");
+                    jTextDiemHD.grabFocus();
+                    return;
+                }
+                if(Float.parseFloat(jTextDiemPB.getText())<0 || Float.parseFloat(jTextDiemPB.getText())>10)
+                {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập 0<=điểm<=10.");
+                    jTextDiemPB.grabFocus();
+                    return;
+                }
             }
         }
     }//GEN-LAST:event_jButtonSuaActionPerformed

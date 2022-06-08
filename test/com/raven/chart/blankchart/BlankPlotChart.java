@@ -1,5 +1,8 @@
 package com.raven.chart.blankchart;
 
+import com.raven.chart.NiceScale;
+import com.raven.chart.SeriesSize;
+import com.raven.chart.BlankPlotChatRender;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;

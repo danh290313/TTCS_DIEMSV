@@ -5,9 +5,11 @@
  */
 package design;
 
+import BACKUP_RESTORE.FormBackUp;
+import TTCS.FormCapQuyen;
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import dao.Provider;
 import design.MainQl;
-import doan.DataBaseHelper;
 import doan.SetImage;
 import quanly.main;
 import java.awt.Image;
@@ -30,7 +32,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import doan.DataBaseHelper;
 /**
  *
  * @author hyipd
@@ -40,8 +41,17 @@ public class DangNhap extends javax.swing.JFrame {
     /**
      * Creates new form dangnhap
      */
+    
+    
     public DangNhap() {
         initComponents();
+        
+        try {
+            DataBaseHelper.con = DataBaseHelper.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(DangNhap.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         this.setLocationRelativeTo(null);
         try
         {
@@ -57,8 +67,8 @@ public class DangNhap extends javax.swing.JFrame {
         {
             ex.printStackTrace();
         }
-        jTextTenTk.setText("sa");
-        jPasswordMK.setText("sa");
+        jTextTenTk.setText("giangvien3");
+        jPasswordMK.setText("123456");
         
         try{
             UIManager.setLookAndFeel(new FlatIntelliJLaf());
@@ -83,13 +93,14 @@ public class DangNhap extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         panelBorder1 = new com.raven.swing.PanelBorder();
         jTextTenTk = new javax.swing.JTextField();
-        jRadioSv = new javax.swing.JRadioButton();
         jPasswordMK = new javax.swing.JPasswordField();
         jButtonDangNhap = new javax.swing.JButton();
         jLabelMk = new javax.swing.JLabel();
-        jRadioQl = new javax.swing.JRadioButton();
         jLabelTtk = new javax.swing.JLabel();
         jButtonThoat = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jButtonDangNhap1 = new javax.swing.JButton();
+        jButtonDangNhap2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản Lý Điểm Sinh Viên");
@@ -97,11 +108,6 @@ public class DangNhap extends javax.swing.JFrame {
         setUndecorated(true);
 
         jTextTenTk.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-
-        buttonGroup1.add(jRadioSv);
-        jRadioSv.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        jRadioSv.setForeground(new java.awt.Color(255, 255, 255));
-        jRadioSv.setText("Sinh viên");
 
         jPasswordMK.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
 
@@ -117,12 +123,6 @@ public class DangNhap extends javax.swing.JFrame {
         jLabelMk.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelMk.setText("Mật khẩu:");
 
-        buttonGroup1.add(jRadioQl);
-        jRadioQl.setFont(new java.awt.Font("Tahoma", 3, 16)); // NOI18N
-        jRadioQl.setForeground(new java.awt.Color(255, 255, 255));
-        jRadioQl.setSelected(true);
-        jRadioQl.setText("Quản lý");
-
         jLabelTtk.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelTtk.setText("Tên tài khoản:");
 
@@ -135,54 +135,79 @@ public class DangNhap extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 255, 255));
+        jLabel1.setText("                        QUẢN LÝ ĐIỂM SINH VIÊN");
+
+        jButtonDangNhap1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButtonDangNhap1.setForeground(new java.awt.Color(255, 0, 51));
+        jButtonDangNhap1.setText("PHÂN QUYỀN VÀ TRIGGER");
+        jButtonDangNhap1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDangNhap1ActionPerformed(evt);
+            }
+        });
+
+        jButtonDangNhap2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButtonDangNhap2.setForeground(new java.awt.Color(255, 0, 51));
+        jButtonDangNhap2.setText("BACK UP AND RESTORE");
+        jButtonDangNhap2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDangNhap2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
         panelBorder1Layout.setHorizontalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
-                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGap(153, 153, 153)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelTtk)
-                            .addComponent(jLabelMk))
-                        .addGap(34, 34, 34)
-                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextTenTk, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPasswordMK, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(69, 69, 69))
+                            .addGroup(panelBorder1Layout.createSequentialGroup()
+                                .addComponent(jButtonDangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(73, 73, 73)
+                                .addComponent(jButtonThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelBorder1Layout.createSequentialGroup()
+                                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelMk)
+                                    .addComponent(jLabelTtk))
+                                .addGap(34, 34, 34)
+                                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextTenTk, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                                    .addComponent(jPasswordMK)))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addGap(179, 179, 179)
-                        .addComponent(jButtonDangNhap)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBorder1Layout.createSequentialGroup()
-                        .addGap(284, 284, 284)
-                        .addComponent(jRadioQl, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(77, 77, 77)
-                        .addComponent(jRadioSv, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(140, Short.MAX_VALUE))
+                        .addGap(57, 57, 57)
+                        .addComponent(jButtonDangNhap1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
+                        .addComponent(jButtonDangNhap2, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
-                .addGap(104, 104, 104)
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelTtk)
-                    .addComponent(jTextTenTk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
+                    .addComponent(jTextTenTk, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTtk, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelMk)
-                    .addComponent(jPasswordMK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(75, 75, 75)
+                    .addComponent(jLabelMk, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPasswordMK, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(106, 106, 106)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioQl)
-                    .addComponent(jRadioSv))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                    .addComponent(jButtonDangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(67, 67, 67)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonDangNhap)
-                    .addComponent(jButtonThoat))
-                .addGap(72, 72, 72))
+                    .addComponent(jButtonDangNhap2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDangNhap1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(203, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -212,38 +237,41 @@ public class DangNhap extends javax.swing.JFrame {
             return;
         }
 
-        
-        
-        if(jRadioQl.isSelected())
-        {   
-            DataBaseHelper.name=jTextTenTk.getText();
-            DataBaseHelper.pass=jPasswordMK.getText();
-            try(Connection con = DataBaseHelper.getConnection();)
-            {     
-                new MainQl().setVisible(true);
-                this.setVisible(false);      
-            } 
-            catch (SQLException ex) 
-            {
-                JOptionPane.showMessageDialog(this, "Nhập sai tên tài khoản hoặc mật khẩu");
-            }
-            
-        }
-        else
-        {
-            DataBaseHelper.name="DS_SINHVIEN";
-            DataBaseHelper.pass="123456";
-            String sql2 = "select masv from taikhoansv where tentaikhoan=? and matkhau=CONVERT(VARCHAR(32), HashBytes('MD5', ?), 2)";
-            try(Connection con = DataBaseHelper.getConnection();
-            PreparedStatement smt = con.prepareStatement(sql2);)
+            String sql1 = "SELECT MaTk,MaVaitro FROM TaiKhoan where" +
+                    " tentaikhoan=? and matkhau=CONVERT(VARCHAR(32), HashBytes('MD5', ?), 2)";
+           
+            try(
+            PreparedStatement smt = DataBaseHelper.con.prepareStatement(sql1);   
+                    )
             {
                 smt.setString(1,jTextTenTk.getText());
                 smt.setString(2,jPasswordMK.getText());
+      
                 ResultSet rs = smt.executeQuery();
+               
                 if(rs.next()) 
-                {      
-                     new MainSinhVien(rs.getString(1)).setVisible(true);
-                     this.setVisible(false);
+                {   
+                    
+                    String vaiTro = rs.getString(2);
+                    if(vaiTro.equals("VT1"))
+                    {
+                        new MainQl(rs.getString(1),true).setVisible(true);
+                        this.setVisible(false);
+                    }
+                    else if(vaiTro.equals("VT2"))
+                    {
+                        Provider.maGv = rs.getString(1);
+                        new MainQl(rs.getString(1),false).setVisible(true);                    
+                        this.setVisible(false);
+                    }
+                    else if(vaiTro.equals("VT3"))
+                    {
+                        new MainSinhVien(rs.getString(1)).setVisible(true);
+                        this.setVisible(false);
+                    }
+                            
+                    
+                   
                 }
                 else
                 {
@@ -254,11 +282,13 @@ public class DangNhap extends javax.swing.JFrame {
             } 
             catch (SQLException ex) 
             {
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, ex.toString());
             }
-        }
-//        try(Connection con = DataBaseHelper.getConnection();
-//            PreparedStatement smt = con.prepareStatement(jRadioQl.isSelected() ? sql : sql2 );)
+            
+        
+       
+//        try(
+//            PreparedStatement smt =DataBaseHelper.con.prepareStatement(jRadioQl.isSelected() ? sql : sql2 );)
 //            {
 //                smt.setString(1,jTextTenTk.getText());
 //                smt.setString(2,jPasswordMK.getText());
@@ -278,7 +308,7 @@ public class DangNhap extends javax.swing.JFrame {
 //                }
 //                else
 //                {
-//                    JOptionPane.showMessageDialog(this, "Nhap sai ten tai khoan hoac mat khau");
+//JOptionPane.showMessageDialog(this, "Nhap sai ten tai khoan hoac mat khau");                    JOptionPane.showMessageDialog(this, "Nhap sai ten tai khoan hoac mat khau");
 //                    jTextTenTk.grabFocus();
 //                }
 //                
@@ -293,6 +323,19 @@ public class DangNhap extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jButtonThoatActionPerformed
+
+    private void jButtonDangNhap1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDangNhap1ActionPerformed
+        // TODO add your handling code here:
+            new FormCapQuyen().setVisible(true);
+            this.setVisible(false);
+        
+    }//GEN-LAST:event_jButtonDangNhap1ActionPerformed
+
+    private void jButtonDangNhap2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDangNhap2ActionPerformed
+        // TODO add your handling code here:
+        new FormBackUp().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButtonDangNhap2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -333,12 +376,13 @@ public class DangNhap extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButtonDangNhap;
+    private javax.swing.JButton jButtonDangNhap1;
+    private javax.swing.JButton jButtonDangNhap2;
     private javax.swing.JButton jButtonThoat;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelMk;
     private javax.swing.JLabel jLabelTtk;
     private javax.swing.JPasswordField jPasswordMK;
-    private javax.swing.JRadioButton jRadioQl;
-    private javax.swing.JRadioButton jRadioSv;
     private javax.swing.JTextField jTextTenTk;
     private com.raven.swing.PanelBorder panelBorder1;
     // End of variables declaration//GEN-END:variables

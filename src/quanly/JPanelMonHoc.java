@@ -7,8 +7,10 @@ package quanly;
 
 import core.ChuyenNganh;
 import core.MonHoc;
-import doan.DataBaseHelper;
+import dao.Provider;
+import design.DataBaseHelper;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -41,8 +43,11 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         initData();
         strings = new Stack<>();
         stack = new Stack<>();
-        jLabelMaMH.setText(taoMaMH());
+        jLabelMaMH.setText(Provider.taoMaMH());
         jLabelMaMH.setForeground(Color.RED);
+        jButtonXoa.setEnabled(false);
+        jButtonSua.setEnabled(false);
+        jTableDSMH.getTableHeader().setFont( new Font( "Tahoma" , Font.BOLD, 14));
     }
     
     DefaultTableModel model = new DefaultTableModel();
@@ -53,10 +58,10 @@ public class JPanelMonHoc extends javax.swing.JPanel {
     public void initData()
     {   
         model = (DefaultTableModel) jTableDSMH.getModel();
-        String sql = "select * from monhoc";
+        String sql = "select * from monhoc order by cast(substring(MaMH,3,10) as int)";
         model.setRowCount(0);
-        try(Connection con = DataBaseHelper.getConnection();
-                Statement smt = con.createStatement();)
+        try(
+                Statement smt = DataBaseHelper.con.createStatement();)
         {   
             Vector vt;
             ResultSet rs = smt.executeQuery(sql);
@@ -83,8 +88,8 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         model = (DefaultTableModel) jTableDSMH.getModel();
         String sql = "select * from monhoc where mamh like N'%"+s+"%' or tenmh like N'%"+s+"%' or sotietlt like N'%"+s+"%' or sotietth like N'%"+s+"%' or sotinchi like N'%"+s+"%'";
         model.setRowCount(0);
-        try(Connection con = DataBaseHelper.getConnection();
-                Statement smt = con.createStatement();)
+        try(
+                Statement smt = DataBaseHelper.con.createStatement();)
         {   
             Vector vt;
             ResultSet rs = smt.executeQuery(sql);
@@ -108,31 +113,13 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         
     }
     
-    public String taoMaMH()
-    {
-        String sql = "select mamh from monhoc";
-        int max =0;
-        try(Connection con = DataBaseHelper.getConnection();
-                Statement smt = con.createStatement();
-                 )
-        {   
-            ResultSet rs = smt.executeQuery(sql);
-            while(rs.next())
-            {   
-                int ma = Integer.parseInt(rs.getString(1).substring(2,rs.getString(1).length()).trim());
-                if(ma> max)
-                    max = ma;
-            }
-            
-            
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, ex.toString());
-        }
-        return "MH" + String.valueOf(max +1);
-    }
+    
     
     public void lamMoi()
     {
+        jButtonThem.setEnabled(true);
+        jButtonXoa.setEnabled(false);
+        jButtonSua.setEnabled(false);
         jTextMh.setText("");
         jTextStLt.setText("");
         jTextStTh.setText("");
@@ -153,27 +140,7 @@ public class JPanelMonHoc extends javax.swing.JPanel {
     }
     
     
-    public MonHoc getMhTheoMa(String maMh)
-    {
-        MonHoc mh = new MonHoc();
-        String sql = " SELECT * FROM monhoc WHERE mamh=N'" + maMh + "'";
-        try {
-            Connection con = DataBaseHelper.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            if (rs.next()) {
-                mh.setMaMH(rs.getString(1));
-                mh.setTenMH(rs.getString(2)); 
-                mh.setSoTietLT(Integer.parseInt(rs.getString(3))); 
-                mh.setSoTietTH(Integer.parseInt(rs.getString(4))); 
-                mh.setSoTinChi(Integer.parseInt(rs.getString(5))); 
-                return mh;
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.toString());
-        }
-        return null;
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -223,7 +190,15 @@ public class JPanelMonHoc extends javax.swing.JPanel {
             new String [] {
                 "Mã Môn Học", "Tên Môn Học", "Số tiết lý thuyết", "Số tiết thưc hành", "Số tín chỉ"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableDSMH.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableDSMHMouseClicked(evt);
@@ -289,7 +264,7 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         jButtonKhoiPhuc.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButtonKhoiPhuc.setForeground(new java.awt.Color(255, 255, 255));
         jButtonKhoiPhuc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/1restore.png"))); // NOI18N
-        jButtonKhoiPhuc.setText("Khôi phục");
+        jButtonKhoiPhuc.setText("Hoàn tác");
         jButtonKhoiPhuc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonKhoiPhucActionPerformed(evt);
@@ -301,16 +276,17 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         jPanel3.setLayout(new java.awt.GridLayout(0, 2, 10, 0));
 
         jLabel6.setBackground(new java.awt.Color(255, 204, 204));
-        jLabel6.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        jLabel6.setText("Mã Môn Học: ");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel6.setText("          Mã Môn Học: ");
         jPanel3.add(jLabel6);
 
         jLabelMaMH.setBackground(new java.awt.Color(255, 204, 204));
+        jLabelMaMH.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jPanel3.add(jLabelMaMH);
 
         jLabel2.setBackground(new java.awt.Color(255, 204, 204));
-        jLabel2.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        jLabel2.setText("Tên Môn Học: ");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setText("          Tên Môn Học: ");
         jPanel3.add(jLabel2);
 
         jTextMh.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
@@ -322,24 +298,24 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         jPanel3.add(jTextMh);
 
         jLabel3.setBackground(new java.awt.Color(255, 204, 204));
-        jLabel3.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        jLabel3.setText("Số tiết lý thuyết: ");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel3.setText("          Số tiết lý thuyết: ");
         jPanel3.add(jLabel3);
 
         jTextStLt.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jPanel3.add(jTextStLt);
 
         jLabel4.setBackground(new java.awt.Color(255, 204, 204));
-        jLabel4.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        jLabel4.setText("Số tiết thực hành: ");
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel4.setText("          Số tiết thực hành: ");
         jPanel3.add(jLabel4);
 
         jTextStTh.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jPanel3.add(jTextStTh);
 
         jLabel5.setBackground(new java.awt.Color(255, 204, 204));
-        jLabel5.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        jLabel5.setText("Số tín chỉ: ");
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel5.setText("          Số tín chỉ: ");
         jPanel3.add(jLabel5);
 
         jTextSTc.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
@@ -362,7 +338,7 @@ public class JPanelMonHoc extends javax.swing.JPanel {
             }
         });
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel12.setText("Tìm Kiếm:");
         jLabel12.setMaximumSize(new java.awt.Dimension(90, 22));
         jLabel12.setPreferredSize(new java.awt.Dimension(90, 13));
@@ -425,8 +401,8 @@ public class JPanelMonHoc extends javax.swing.JPanel {
     {
         
         String sql = "insert into monhoc values(?,?,?,?,?)";
-        try (Connection con = DataBaseHelper.getConnection();
-            PreparedStatement smt = con.prepareStatement(sql);) {
+        try (
+            PreparedStatement smt = DataBaseHelper.con.prepareStatement(sql);) {
             smt.setString(1, maMh);
             smt.setString(2, tenMh);
             smt.setInt(3,  solt);
@@ -476,8 +452,26 @@ public class JPanelMonHoc extends javax.swing.JPanel {
             jTextStTh.grabFocus();
             return;
         }
+        if(Integer.parseInt(jTextSTc.getText())<=0)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số tín chỉ > 0.");
+            jTextSTc.grabFocus();
+            return;
+        }
+        if(Integer.parseInt(jTextStLt.getText())<=0)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số tiết > 0.");
+            jTextStLt.grabFocus();
+            return;
+        }
+        if(Integer.parseInt(jTextStTh.getText())<0 )
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số tiết >= 0.");
+            jTextStTh.grabFocus();
+            return;
+        }
         
-        themMh(taoMaMH(), jTextMh.getText(), Integer.parseInt(jTextStLt.getText()), Integer.parseInt(jTextStTh.getText()), Integer.parseInt(jTextSTc.getText()), true);
+        themMh(Provider.taoMaMH(), jTextMh.getText(), Integer.parseInt(jTextStLt.getText()), Integer.parseInt(jTextStTh.getText()), Integer.parseInt(jTextSTc.getText()), true);
         
     }//GEN-LAST:event_jButtonThemActionPerformed
     
@@ -487,12 +481,12 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         if(checkRestore)
         {
             strings.push("Xoa");
-            stack.push(getMhTheoMa(maMh));
+            stack.push(Provider.getMhTheoMa(maMh));
         }
         
          String sql = "delete from monhoc where mamh=?";
-            try (Connection con = DataBaseHelper.getConnection();
-                PreparedStatement smt = con.prepareStatement(sql);) {
+            try (
+                PreparedStatement smt = DataBaseHelper.con.prepareStatement(sql);) {
                 smt.setString(1, maMh);
 
                 int kt2 = smt.executeUpdate();
@@ -522,12 +516,12 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         if(checkRestore)
            {
                strings.push("Sua");
-               stack.push(getMhTheoMa(maMh));
+               stack.push(Provider.getMhTheoMa(maMh));
            }
         
         String sql = "update monhoc set tenmh=?,sotietlt=?,sotietth=?,sotinchi=? where mamh = ?";
-            try (Connection con = DataBaseHelper.getConnection();
-                PreparedStatement smt = con.prepareStatement(sql);) {
+            try (
+                PreparedStatement smt = DataBaseHelper.con.prepareStatement(sql);) {
 
                 smt.setString(1, tenMh);
                 smt.setInt(2, solt);
@@ -552,7 +546,7 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         
         if(jTextMh.getText().equals(""))
         {
-            JOptionPane.showMessageDialog(this, "Tên Môn học không được để trống");
+            JOptionPane.showMessageDialog(this, "Tên môn học không được để trống");
             jTextMh.grabFocus();
             return;
         }
@@ -570,7 +564,25 @@ public class JPanelMonHoc extends javax.swing.JPanel {
         }
         if(jTextStTh.getText().equals(""))
         {
-            JOptionPane.showMessageDialog(this, "Số tiết học không được để trống");
+            JOptionPane.showMessageDialog(this, "Số tiết không được để trống");
+            jTextStTh.grabFocus();
+            return;
+        }
+        if(Integer.parseInt(jTextSTc.getText())<=0)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số tín chỉ > 0.");
+            jTextSTc.grabFocus();
+            return;
+        }
+        if(Integer.parseInt(jTextStLt.getText())<=0)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số tiết > 0.");
+            jTextStLt.grabFocus();
+            return;
+        }
+        if(Integer.parseInt(jTextStTh.getText())<0 )
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số tiết >= 0.");
             jTextStTh.grabFocus();
             return;
         }
@@ -584,6 +596,10 @@ public class JPanelMonHoc extends javax.swing.JPanel {
 
     private void jTableDSMHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDSMHMouseClicked
         // TODO add your handling code here:
+        jButtonThem.setEnabled(false);
+        jButtonXoa.setEnabled(true);
+        jButtonSua.setEnabled(true);
+        
         int row = jTableDSMH.getSelectedRow();
         if(row>=0)
         {

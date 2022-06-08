@@ -1,5 +1,7 @@
 package com.raven.chart.blankchart;
 
+import com.raven.chart.SeriesSize;
+import com.raven.chart.BlankPlotChart;
 import java.awt.Graphics2D;
 
 public abstract class BlankPlotChatRender {

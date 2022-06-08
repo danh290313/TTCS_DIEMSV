@@ -12,11 +12,12 @@ package quanly;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.raven.swing.ScrollBar;
 import static com.raven.swing.scroll.sroll;
-import com.sun.javafx.collections.FloatArraySyncer;
 import core.ChuyenNganh;
+import dao.Provider;
 import static dao.Provider.searchMaMonHoc;
-import doan.DataBaseHelper;
+import design.DataBaseHelper;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -51,7 +52,7 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
     protected void paintChildren(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        GradientPaint g = new GradientPaint(0, 0, Color.decode("#FFFDE4"), 0, getHeight(), Color.decode("#005AA7"));
+        GradientPaint g = new GradientPaint(0, 0, Color.decode("#1ccce0"), 0, getHeight(), Color.decode("#005AA7"));
         g2.setPaint(g);
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
         g2.fillRect(getWidth() - 20, 0, getWidth(), getHeight());
@@ -74,16 +75,13 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
     public static Stack<ChuyenNganh> stack = null;
    
     public JPanelChuyenNganh() {
-        
-        
-        
         initComponents();
         initData();
         strings = new Stack<>();
         stack = new Stack<>();
         sroll(jScrollPane1);
         sroll(jScrollPane2);
-        jLabelMacn.setText(taoMaCN());
+        jLabelMacn.setText(Provider.taoMaCN());
         jLabelMacn.setForeground(Color.red);
         jLabelMacn.setBackground(Color.GREEN);
         listMh.setMultipleMode(true);
@@ -91,7 +89,8 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
         jDatedoantotnghiep.setDate(date);
         vohieuButtonKhiChuaChon();
         loadDsMh();
-        
+        jTableDSCN.getTableHeader().setFont( new Font( "Tahoma" , Font.BOLD, 14));
+        jTableDSmhcn.getTableHeader().setFont( new Font( "Tahoma" , Font.BOLD, 14));
     }
     
     
@@ -100,8 +99,8 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
     public void loadDsMh()
     {   
         listMh.removeAll();
-        try(Connection con = DataBaseHelper.getConnection();
-                PreparedStatement smt = con.prepareStatement("{call DS_MH_CHUACHON(?)}");)
+        try(
+                PreparedStatement smt = DataBaseHelper.con.prepareStatement("{call DS_MH_CHUACHON(?)}");)
         {   
             
             smt.setString(1,jLabelMacn.getText());
@@ -121,8 +120,8 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
 //    public void loadDsMhChon()
 //    {   
 //        listMhChon.removeAll();
-//        try(Connection con = DataBaseHelper.getConnection();
-//                PreparedStatement smt = con.prepareStatement("{call DS_MHCHON(?)}");)
+//        try(
+//                PreparedStatement smt = DataBaseHelper.con.prepareStatement("{call DS_MHCHON(?)}");)
 //        {   
 //            
 //            smt.setString(1,jLabelMacn.getText());
@@ -142,8 +141,8 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
     public boolean checkMhChon(String tenMh)
     {   
 
-        try(Connection con = DataBaseHelper.getConnection();
-                PreparedStatement smt = con.prepareStatement("{call DS_MHCHON(?)}");)
+        try(
+                PreparedStatement smt = DataBaseHelper.con.prepareStatement("{call DS_MHCHON(?)}");)
         {   
             
             smt.setString(1,jLabelMacn.getText());
@@ -164,10 +163,10 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
 
     public void initData() {
         model = (DefaultTableModel) jTableDSCN.getModel();
-        String sql = "select * from chuyennganh";
+        String sql = "select * from chuyennganh order by cast(substring(MaCN,3,10) as int)";
         model.setRowCount(0);
-        try (Connection con = DataBaseHelper.getConnection();
-                Statement smt = con.createStatement();) {
+        try (
+                Statement smt = DataBaseHelper.con.createStatement();) {
             Vector vt;
             ResultSet rs = smt.executeQuery(sql);
             while (rs.next()) {
@@ -188,8 +187,8 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
         model = (DefaultTableModel) jTableDSmhcn.getModel();
         String sql = "select tenmh,hesogk,hesock from kehoach,monhoc where kehoach.mamh=monhoc.mamh and kehoach.macn='"+ jLabelMacn.getText()+"'";
         model.setRowCount(0);
-        try (Connection con = DataBaseHelper.getConnection();
-                Statement smt = con.createStatement();) {
+        try (
+                Statement smt = DataBaseHelper.con.createStatement();) {
             Vector vt;
             ResultSet rs = smt.executeQuery(sql);
             while (rs.next()) {
@@ -206,31 +205,13 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
         }
     }
 
-    public String taoMaCN() {
-        String sql = "select macn from chuyennganh";
-        int max = 0;
-        try (Connection con = DataBaseHelper.getConnection();
-                Statement smt = con.createStatement();) {
-            ResultSet rs = smt.executeQuery(sql);
-            while (rs.next()) {
-                int ma = Integer.parseInt(rs.getString(1).substring(2, rs.getString(1).length()).trim());
-                if (ma > max) {
-                    max = ma;
-                }
-            }
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, ex.toString());
-        }
-        return "CN" + String.valueOf(max + 1);
-    }
-
-    
+   
 
     public void lamMoi() {
-        jLabelMacn.setText(taoMaCN());
+        jLabelMacn.setText(Provider.taoMaCN());
         jTextTenCn.setText("");
-        jTableDSCN.setRowSelectionAllowed(false);
+        //jTableDSCN.setRowSelectionAllowed(false);
+        
         model = (DefaultTableModel) jTableDSmhcn.getModel();
         model.setRowCount(0);
         vohieuButtonKhiChuaChon();
@@ -240,7 +221,7 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
         listMhChon.removeAll();
         jTextHsTh.setText("");
         jTextHsck.setText("");
-        
+        initData();
 
     }
     
@@ -250,16 +231,16 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
         jLabelTenMhcn.setText("");
     }
     
-    public void vohieuButtonKhiChuaChon()
+    public void vohieuButtonKhiChuaChon ()
     {
-        jButtonSua.setEnabled(false);
-        jButtonXoa.setEnabled(false);
-        jButtonBack.setEnabled(false);
-        jButtonGo.setEnabled(false);
-        jButtonaddMhcn.setEnabled(false);
-        jButtonsuamhcn.setEnabled(false);
-        jButtonxoamhcn.setEnabled(false);
-        jPanelKeHoach.setEnabled(false);
+        jButtonSua.setEnabled (false);
+        jButtonXoa.setEnabled (false);
+        jButtonBack.setEnabled (false);
+        jButtonGo.setEnabled (false);
+        jButtonaddMhcn.setEnabled (false);
+        jButtonsuamhcn.setEnabled (false);
+        jButtonxoamhcn.setEnabled (false);
+        jPanelKeHoach.setVisible (false);
         //listMh.setVisible(false);
     }
     
@@ -287,8 +268,8 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
      public String searchDiemChuan(String maCn) {
         String sql = "{CALL TIM_DIEMCHUANDA_THEOMACN(?)}";
         Float a = null;
-        try(Connection con = DataBaseHelper.getConnection();
-                PreparedStatement smt = con.prepareStatement(sql);)
+        try(
+                PreparedStatement smt = DataBaseHelper.con.prepareStatement(sql);)
         {   
             
             smt.setString(1,maCn);
@@ -307,8 +288,8 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
         model = (DefaultTableModel) jTableDSCN.getModel();
         String sql = "select * from chuyennganh where macn like N'%"+s+"%' or tencn like N'%"+s+"%'";
         model.setRowCount(0);
-        try(Connection con = DataBaseHelper.getConnection();
-                Statement smt = con.createStatement();)
+        try(
+                Statement smt = DataBaseHelper.con.createStatement();)
         {   
             Vector vt;
             ResultSet rs = smt.executeQuery(sql);
@@ -327,24 +308,7 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
         
     }
      
-    public ChuyenNganh getCnTheoMa(String maCn)
-    {
-        ChuyenNganh cn = new ChuyenNganh();
-        String sql = " SELECT * FROM chuyennganh WHERE macn=N'" + maCn + "'";
-        try {
-            Connection con = DataBaseHelper.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            if (rs.next()) {
-                cn.setMacn(rs.getString(1));
-                cn.setTencn(rs.getString(2)); 
-                return cn;
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.toString());
-        }
-        return null;
-    }
+    
     
     
 
@@ -403,14 +367,21 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(1050, 700));
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Tên chuyên ngành:");
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setText("Mã chuyên ngành: ");
 
         jLabelMacn.setBackground(new java.awt.Color(204, 255, 0));
         jLabelMacn.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
 
         jTextTenCn.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jTextTenCn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextTenCnActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setOpaque(false);
@@ -429,7 +400,15 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
             new String [] {
                 "Mã chuyên ngành", "Tên chuyên ngành"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableDSCN.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTableDSCN.setOpaque(false);
         jTableDSCN.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -456,7 +435,15 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
             new String [] {
                 "Tên Môn Học", "Hệ số giữa kỳ", "Hệ số cuối kỳ"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableDSmhcn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableDSmhcnMouseClicked(evt);
@@ -504,10 +491,10 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
         });
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jLabel10.setText("DS_MonChuaChon");
+        jLabel10.setText("DS Môn Học");
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jLabel11.setText("DS_MonHocChon");
+        jLabel11.setText("DS Môn Được Chọn");
 
         jButtonBack.setText("<");
         jButtonBack.addActionListener(new java.awt.event.ActionListener() {
@@ -526,7 +513,7 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
         listMh.setBackground(new java.awt.Color(204, 255, 255));
         listMh.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         listMh.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        listMh.setForeground(new java.awt.Color(0, 102, 51));
+        listMh.setForeground(new java.awt.Color(255, 0, 0));
         listMh.setMultipleMode(true);
         listMh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -583,22 +570,24 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
                 .addGroup(jPanelKeHoachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelKeHoachLayout.createSequentialGroup()
                         .addGap(247, 247, 247)
-                        .addGroup(jPanelKeHoachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanelKeHoachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelKeHoachLayout.createSequentialGroup()
-                                .addGap(8, 8, 8)
                                 .addComponent(listMh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButtonBack)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButtonGo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(listMhChon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(24, 24, 24))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(jPanelKeHoachLayout.createSequentialGroup()
                                 .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(104, 104, 104)
-                                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(28, 28, 28)
+                                .addGap(92, 92, 92)))
+                        .addGroup(jPanelKeHoachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanelKeHoachLayout.createSequentialGroup()
+                                .addComponent(listMhChon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(52, 52, 52))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelKeHoachLayout.createSequentialGroup()
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)))
                         .addComponent(jButtonaddMhcn)
                         .addGap(225, 225, 225))
                     .addComponent(jScrollPane2))
@@ -610,7 +599,7 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
                 .addComponent(jTextdaTn, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jDatedoantotnghiep, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addComponent(jButtonDiemChuan, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonLichSuDiemChuan))
@@ -618,8 +607,8 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
                 .addGap(32, 32, 32)
                 .addComponent(jLabel9)
                 .addGap(18, 18, 18)
-                .addComponent(jLabelTenMhcn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91)
+                .addComponent(jLabelTenMhcn, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextHsTh, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -738,7 +727,7 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
         jButtonKhoiPhuc.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButtonKhoiPhuc.setForeground(new java.awt.Color(255, 255, 255));
         jButtonKhoiPhuc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/1restore.png"))); // NOI18N
-        jButtonKhoiPhuc.setText("Khôi phục");
+        jButtonKhoiPhuc.setText("Hoàn tác");
         jButtonKhoiPhuc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonKhoiPhucActionPerformed(evt);
@@ -759,7 +748,7 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
             }
         });
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel12.setText("Tìm Kiếm:");
         jLabel12.setMaximumSize(new java.awt.Dimension(90, 22));
         jLabel12.setPreferredSize(new java.awt.Dimension(90, 13));
@@ -773,24 +762,24 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabelMacn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(139, 139, 139)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabelMacn, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextTenCn)
-                        .addGap(132, 132, 132))
+                        .addComponent(jTextTenCn, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(31, 31, 31))))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1009, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(31, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(36, 36, 36)
@@ -805,29 +794,26 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelMacn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextTenCn))
-                .addGap(24, 24, 24)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelMacn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextTenCn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(93, 93, 93)))
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addComponent(ngan, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
+                .addComponent(ngan, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelKeHoach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -838,8 +824,8 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
     public void themCn(String maCn, String tenCn, boolean checkRestore)
     {
         String sql = "insert into chuyennganh values(?,?)";
-        try (Connection con = DataBaseHelper.getConnection();
-            PreparedStatement smt = con.prepareStatement(sql)) {    
+        try (
+            PreparedStatement smt = DataBaseHelper.con.prepareStatement(sql)) {    
             smt.setString(1, maCn);
             smt.setString(2, tenCn);
 
@@ -862,13 +848,23 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
     
     private void jButtonThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemActionPerformed
         // TODO add your handling code here:
-        if(jTextTenCn.getText().equals(""))
+        boolean matchTen = jTextTenCn.getText().matches("[a-zaAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆ fFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTu UùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ]+");
+        if ("".equals(jTextTenCn.getText()))
         {
-            JOptionPane.showMessageDialog(this, "Tên Chuyên Ngành không được để trống");
+            JOptionPane.showMessageDialog(this, "Tên chuyên ngành được để trống.");
+        }
+        else if(!matchTen) 
+        {
+        	JOptionPane.showMessageDialog(this, "Tên chuyên ngành sai định dạng.");
+        }
+        else
+        {
+            //JOptionPane.showMessageDialog(this, "Tên chuyên ngành không được để trống");
+            themCn(Provider.taoMaCN(), jTextTenCn.getText(),true);
             jTextTenCn.grabFocus();
             return;
         }
-        themCn(taoMaCN(), jTextTenCn.getText(),true);
+        //themCn(Provider.taoMaCN(), jTextTenCn.getText(),true);
     }//GEN-LAST:event_jButtonThemActionPerformed
     
     public void xoaCn(String maCn,boolean checkRestore)
@@ -876,12 +872,12 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
         if(checkRestore)
         {
             strings.push("Xoa");
-            stack.push(getCnTheoMa(maCn));
+            stack.push(Provider.getCnTheoMa(maCn));
         }
         
         String sql = "delete from chuyennganh where macn=?";
-            try (Connection con = DataBaseHelper.getConnection();
-                PreparedStatement smt = con.prepareStatement(sql);) {
+            try (
+                PreparedStatement smt = DataBaseHelper.con.prepareStatement(sql);) {
                 smt.setString(1, maCn);
 
                 int kt2 = smt.executeUpdate();
@@ -911,12 +907,12 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
         if(checkRestore)
            {
                strings.push("Sua");
-               stack.push(getCnTheoMa(maCn));
+               stack.push(Provider.getCnTheoMa(maCn));
            }
         
         String sql = "update chuyennganh set tencn=? where macn = ?";
-        try (Connection con = DataBaseHelper.getConnection();
-            PreparedStatement smt = con.prepareStatement(sql);) {
+        try (
+            PreparedStatement smt = DataBaseHelper.con.prepareStatement(sql);) {
 
             smt.setString(1, tenCn);
             smt.setString(2, maCn);
@@ -936,20 +932,31 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
     }
     
     private void jButtonSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuaActionPerformed
-        //        // TODO add your handling code here:
-        if(jTextTenCn.getText().equals(""))
+        boolean matchTen = jTextTenCn.getText().matches("[a-zaAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆ fFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTu UùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ]+");
+        if ("".equals(jTextTenCn.getText()))
         {
-            JOptionPane.showMessageDialog(this, "Tên Chuyên Ngành không được để trống");
-            jTextTenCn.grabFocus();
-            return;
+            JOptionPane.showMessageDialog(this, "Tên chuyên ngành được để trống.");
         }
+        else if(!matchTen) 
+        {
+        	JOptionPane.showMessageDialog(this, "Tên chuyên ngành sai định dạng.");
+        }
+        else
+        {
+//        if(jTextTenCn.getText().equals(""))
+//        {
+//            JOptionPane.showMessageDialog(this, "Tên Chuyên Ngành không được để trống");
+            //jTextTenCn.grabFocus();
+//            return;
+//        }
        
-        int kt = JOptionPane.showConfirmDialog(this, "Bạn có muốn sửa không ?");
-        if (kt == JOptionPane.CANCEL_OPTION) {
-            return;
-        } else if (kt == JOptionPane.OK_OPTION) {
-            
-            suaCn( jLabelMacn.getText(), jTextTenCn.getText(),true);
+            int kt = JOptionPane.showConfirmDialog(this, "Bạn có muốn sửa không ?");
+            if (kt == JOptionPane.CANCEL_OPTION) {
+                return;
+            } else if (kt == JOptionPane.OK_OPTION) {
+
+                suaCn( jLabelMacn.getText(), jTextTenCn.getText(),true);
+            }
         }
     }//GEN-LAST:event_jButtonSuaActionPerformed
 
@@ -958,9 +965,9 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
         lamMoi();
         loadDsMh();
       //  loadDsMhChon();
-      listMhChon.removeAll();
-        model = (DefaultTableModel) jTableDSmhcn.getModel();
-        model.setRowCount(0);
+        listMhChon.removeAll();
+        //model = (DefaultTableModel) jTableDSmhcn.getModel();
+       // model.setRowCount(0);
     }//GEN-LAST:event_jButtonLamMoiActionPerformed
 
     private void jButtonBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBackActionPerformed
@@ -1000,8 +1007,8 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
             return;
         }
         String sql2 = "insert into kehoach values(?,?,0,0)";
-        try (Connection con = DataBaseHelper.getConnection();
-            PreparedStatement smt = con.prepareStatement(sql2)) {
+        try (
+            PreparedStatement smt = DataBaseHelper.con.prepareStatement(sql2)) {
             int kt=0;
             for(String mh: listMhChon.getItems())
             {
@@ -1036,8 +1043,8 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
             return;
         } else if (kt == JOptionPane.OK_OPTION) {
             String sql = "delete from kehoach where macn=? and mamh=?";
-            try (Connection con = DataBaseHelper.getConnection();
-                PreparedStatement smt = con.prepareStatement(sql);) {
+            try (
+                PreparedStatement smt = DataBaseHelper.con.prepareStatement(sql);) {
                 smt.setString(1, jLabelMacn.getText());
                 smt.setString(2,searchMaMonHoc(jLabelTenMhcn.getText()));
                 int kt2 = smt.executeUpdate();
@@ -1059,13 +1066,27 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
     
     private void jButtonsuamhcnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonsuamhcnActionPerformed
         // TODO add your handling code here:
-         int kt = JOptionPane.showConfirmDialog(this, "Bạn có muốn sửa không ?");
+        if(Float.parseFloat(jTextHsTh.getText())<0 || Float.parseFloat(jTextHsTh.getText())>90)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập 0<= hệ số điểm <=90.");
+            jTextHsTh.grabFocus();
+            return;
+        }
+        if(Float.parseFloat(jTextHsck.getText())<0 || Float.parseFloat(jTextHsck.getText())>90)
+        {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập 0<= hệ số điểm <=90.");
+            jTextHsck.grabFocus();
+            return;
+        }
+        
+        int kt = JOptionPane.showConfirmDialog(this, "Bạn có muốn sửa không ?");
+         
         if (kt == JOptionPane.CANCEL_OPTION) {
             return;
         } else if (kt == JOptionPane.OK_OPTION) {
             String sql = "update kehoach set hesogk=?,hesock=? where macn = ? and mamh=?";
-            try (Connection con = DataBaseHelper.getConnection();
-                PreparedStatement smt = con.prepareStatement(sql);) {
+            try (
+                PreparedStatement smt = DataBaseHelper.con.prepareStatement(sql);) {
 
                 smt.setString(3, jLabelMacn.getText());
                 smt.setString(4, searchMaMonHoc(jLabelTenMhcn.getText()));
@@ -1137,8 +1158,8 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
     private void jButtonDiemChuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDiemChuanActionPerformed
         // TODO add your handling code here:
         String sql = "insert into diemchuandoantn values(?,?,?)";
-        try( Connection con = DataBaseHelper.getConnection();
-             PreparedStatement smt = con.prepareStatement(sql);)
+        try( 
+             PreparedStatement smt = DataBaseHelper.con.prepareStatement(sql);)
         {
             smt.setString(1, jLabelMacn.getText());
             smt.setString(2, ft.format(jDatedoantotnghiep.getDate()));
@@ -1152,7 +1173,12 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
             
             
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.toString());
+            if(Integer.parseInt(jTextHsTh.getText())<0)
+            {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập điểm > 0.");
+                jTextHsTh.grabFocus();
+                return;
+            }
         }
     }//GEN-LAST:event_jButtonDiemChuanActionPerformed
 
@@ -1206,6 +1232,10 @@ public class JPanelChuyenNganh extends javax.swing.JPanel {
             
         }
     }//GEN-LAST:event_jButtonKhoiPhucActionPerformed
+
+    private void jTextTenCnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextTenCnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextTenCnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

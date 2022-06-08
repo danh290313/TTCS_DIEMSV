@@ -1,8 +1,14 @@
 
 package design;
 
+import BACKUP_RESTORE.FormBackUp;
+import TTCS.FormCapQuyen;
 import com.raven.event.EventMenuSelected;
+import dao.Provider;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -20,16 +26,18 @@ public class MainQl extends javax.swing.JFrame {
     private JPanelChuyenNganh QLCn = new JPanelChuyenNganh();
     private JPanelLopTinChi QLLtc = new JPanelLopTinChi();
     private JPanelGiangVien QLGv = new JPanelGiangVien();
-    private JPanelDangKy QLDk = new JPanelDangKy();
+    private JPanelDangKy_ChamDiem QLDk = new JPanelDangKy_ChamDiem();
     private JPanelSinhVien QLSV = new JPanelSinhVien();
     private JPanelDoAnTotNghiep QLDA = new JPanelDoAnTotNghiep();
     private JPanelCapTkGv taoTKGV = new JPanelCapTkGv();
     private JPanelCapTkSv taoTkSv = new JPanelCapTkSv();
     private JPanelThongKe ThongKe = new JPanelThongKe();
     private JPanelThongKe2 ThongKe2 = new JPanelThongKe2();
-    public MainQl() {
+    public MainQl() {}
+    public MainQl(String maGV,boolean quanLy) {
         initComponents();
-        
+        jLabelTenGV.setText("Giảng Viên: "+searchTenGiangVien(maGV).toUpperCase());
+       
         ImageIcon img = new ImageIcon("image//ptit.png");
         this.setIconImage(img.getImage());
         //setBackground(new Color(0, 0, 0, 0));
@@ -39,48 +47,95 @@ public class MainQl extends javax.swing.JFrame {
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
             public void selected(int index) {
-                if (index == 0) {
-                    setForm(QLCn);
-                } else if (index == 1) {
-                   setForm(QLMonHoc);
-                } else if (index == 2) {
-                    setForm(QLLtc);
-                } else if (index == 3) {
-                   setForm(QLGv);
-                } else if (index == 4) {
-                   setForm(QLDk);
-                } else if (index ==5)
+                if(quanLy)
                 {
-                   setForm(QLSV);
-                } else if (index == 6)
-                {
-                   setForm(QLDA);
-                  
-                } 
-                else if (index == 9)
-                {
-                    setForm(taoTKGV);
-                }
-                else if (index == 10)
-                {
-                    setForm(taoTkSv);
-                }
-                else if (index == 11)
-                {
-                    setForm(ThongKe);
-                }
-                else if (index == 12)
-                {
-                    setForm(ThongKe2);
-                }
-                
-                else if (index ==13)
-                {
-                    int click = JOptionPane.showConfirmDialog(null, "Đăng xuất ngay bây giờ?");
-                    if (click == JOptionPane.OK_OPTION) {
-                        new DangNhap().setVisible(true);
-                        setVisible(false);
+                    if (index == 0) {
+                        setForm(QLCn);
+                    } else if (index == 1) {
+                       setForm(QLMonHoc);
+                    } else if (index == 2) {
+                        setForm(QLLtc);
+                    } else if (index == 3) {
+                       setForm(QLGv);
+                    } else if (index == 4) {
+                       setForm(QLDk);
+                    } else if (index ==5)
+                    {
+                       setForm(QLSV);
+                    } else if (index == 6)
+                    {
+                       setForm(QLDA);
+
+                    } 
+                    else if (index == 9)
+                    {
+                        setForm(taoTKGV);
+                    }
+                    else if (index == 10)
+                    {
+                        setForm(taoTkSv);
+                    }
+                    else if (index == 11)
+                    {
+                        setForm(ThongKe);
+                    }
+                    else if (index == 12)
+                    {
+                        setForm(ThongKe2);
+                    }
+                    else if (index == 13)
+                    {
+                      
+                      new FormCapQuyen().setVisible(true);
+                      
                         
+                    }
+                    else if (index == 14)
+                    {
+                        
+                        new FormBackUp().setVisible(true);
+                    }
+                    
+
+                    else if (index ==15)
+                    {
+                        int click = JOptionPane.showConfirmDialog(null, "Đăng xuất ngay bây giờ?");
+                        if (click == JOptionPane.OK_OPTION) {
+                            new DangNhap().setVisible(true);
+                            setVisible(false);
+                             Provider.maGv=null;
+
+                        }
+                    }
+                }
+                else
+                {
+                    if (index == 4) {
+                       setForm(QLDk);
+                    } 
+                    else if (index == 6)
+                    {
+                       setForm(QLDA);
+
+                    } 
+                    else if (index == 11)
+                    {
+                        setForm(ThongKe);
+                    }
+                    else if (index == 12)
+                    {
+                        setForm(ThongKe2);
+                    }
+
+                    else if (index ==13)
+                    {
+                        int click = JOptionPane.showConfirmDialog(null, "Đăng xuất ngay bây giờ?");
+                        if (click == JOptionPane.OK_OPTION) {
+                            new DangNhap().setVisible(true);
+                            setVisible(false);
+                            Provider.maGv=null;
+
+                        }
                     }
                 }
                  
@@ -90,6 +145,21 @@ public class MainQl extends javax.swing.JFrame {
         });
         //  set when system open start with home form
         
+    }
+    
+    public String searchTenGiangVien(String maGV) {
+        String sql = " SELECT hoten FROM giangvien WHERE magv=N'" + maGV + "'";
+        try {
+            Connection con = DataBaseHelper.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
     
     private void setForm(JComponent com) {
@@ -111,13 +181,28 @@ public class MainQl extends javax.swing.JFrame {
 
         menu = new com.raven.component.Menu();
         jPanelQL = new javax.swing.JPanel();
+        jLabelMain = new javax.swing.JLabel();
+        jLabelTenGV = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 102, 255));
 
         jPanelQL.setBackground(new java.awt.Color(153, 255, 255));
         jPanelQL.setOpaque(false);
-        jPanelQL.setLayout(new java.awt.BorderLayout());
+        jPanelQL.setLayout(new java.awt.BorderLayout(0, 2));
+
+        jLabelMain.setFont(new java.awt.Font("Times New Roman", 3, 100)); // NOI18N
+        jLabelMain.setForeground(new java.awt.Color(255, 0, 102));
+        jLabelMain.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelMain.setText("Quản Lý Điểm Sinh Viên");
+        jPanelQL.add(jLabelMain, java.awt.BorderLayout.CENTER);
+
+        jLabelTenGV.setBackground(new java.awt.Color(255, 204, 255));
+        jLabelTenGV.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabelTenGV.setForeground(new java.awt.Color(255, 51, 51));
+        jLabelTenGV.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelTenGV.setText("Giảng Viên: ");
+        jPanelQL.add(jLabelTenGV, java.awt.BorderLayout.PAGE_START);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -126,7 +211,7 @@ public class MainQl extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
-                .addComponent(jPanelQL, javax.swing.GroupLayout.DEFAULT_SIZE, 1100, Short.MAX_VALUE)
+                .addComponent(jPanelQL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -180,6 +265,8 @@ public class MainQl extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabelMain;
+    private javax.swing.JLabel jLabelTenGV;
     private javax.swing.JPanel jPanelQL;
     private com.raven.component.Menu menu;
     // End of variables declaration//GEN-END:variables

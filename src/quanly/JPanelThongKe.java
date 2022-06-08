@@ -6,8 +6,9 @@
 package quanly;
 
 import com.raven.chart.ModelChart;
-import doan.DataBaseHelper;
+import design.DataBaseHelper;
 import java.awt.Color;
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,6 +31,7 @@ public class JPanelThongKe extends javax.swing.JPanel {
     public JPanelThongKe() {
         initComponents();
         initData();
+        jTableDSMH.getTableHeader().setFont( new Font( "Tahoma" , Font.BOLD, 14));
         chart.addLegend("0-1", new Color(245, 189, 135));
         chart.addLegend("1-2", new Color(135, 189, 245));
         chart.addLegend("2-3", new Color(189, 135, 245));
@@ -124,42 +126,52 @@ public class JPanelThongKe extends javax.swing.JPanel {
                     case "0-1": 
                     {
                         countDiem[0]=rs.getDouble(2);
+                        break;
                     }
                     case "1-2": 
                     {
                         countDiem[1]=rs.getDouble(2);
+                         break;
                     }
                     case "2-3": 
                     {
                         countDiem[2]=rs.getDouble(2);
+                         break;
                     }
                     case "3-4": 
                     {
                         countDiem[3]=rs.getDouble(2);
+                         break;
                     }
                     case "4-5": 
                     {
                         countDiem[4]=rs.getDouble(2);
+                         break;
                     }
                     case "5-6": 
                     {
                         countDiem[5]=rs.getDouble(2);
+                        break;
                     }
                     case "6-7": 
                     {
                         countDiem[6]=rs.getDouble(2);
+                         break;
                     }
                     case "7-8": 
                     {
                         countDiem[7]=rs.getDouble(2);
+                         break;
                     }
                     case "8-9": 
                     {
                         countDiem[8]=rs.getDouble(2);
+                         break;
                     }
                     case "9-10": 
                     {
                         countDiem[9]=rs.getDouble(2);
+                        break;
                     }
                   
                     
@@ -228,7 +240,15 @@ public class JPanelThongKe extends javax.swing.JPanel {
             new String [] {
                 "Mã Môn Học", "Tên Môn Học", "Số tiết lý thuyết", "Số tiết thưc hành", "Số tín chỉ"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTableDSMH.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableDSMHMouseClicked(evt);
@@ -236,11 +256,13 @@ public class JPanelThongKe extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTableDSMH);
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel12.setText("Tìm Kiếm:");
         jLabel12.setMaximumSize(new java.awt.Dimension(90, 22));
         jLabel12.setPreferredSize(new java.awt.Dimension(90, 13));
 
+        jTextTimKiem.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jTextTimKiem.setForeground(new java.awt.Color(255, 51, 51));
         jTextTimKiem.setPreferredSize(new java.awt.Dimension(79, 13));
         jTextTimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -254,10 +276,12 @@ public class JPanelThongKe extends javax.swing.JPanel {
         });
 
         jLabelTenMH1.setBackground(new java.awt.Color(255, 204, 204));
-        jLabelTenMH1.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabelTenMH1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelTenMH1.setText("Tên Môn Học: ");
 
         jLabelTenMh.setBackground(new java.awt.Color(255, 204, 204));
+        jLabelTenMh.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabelTenMh.setForeground(new java.awt.Color(255, 51, 51));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -269,7 +293,7 @@ public class JPanelThongKe extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 91, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(108, 108, 108)

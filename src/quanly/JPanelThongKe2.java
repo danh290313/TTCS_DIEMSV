@@ -8,7 +8,7 @@ package quanly;
 import com.raven.chart.ModelChart;
 import static dao.Provider.searchMaCn;
 import static dao.Provider.searchMaMonHoc;
-import doan.DataBaseHelper;
+import design.DataBaseHelper;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -96,14 +96,35 @@ public class JPanelThongKe2 extends javax.swing.JPanel {
         }
     }
     
+    public Float diemTrungBinhMonHoc(String maCn, String maMH,String Nam, String Hocki)
+    {   
+        
+        
+        String sql = "{CALL usp_ThongKeDiemTB(?,?,?,?)}";
+        try(Connection con = DataBaseHelper.getConnection();
+                PreparedStatement smt = con.prepareStatement(sql);)
+        {   
+            smt.setString(1, maCn);
+            smt.setString(2, maMH);
+            smt.setString(3, Nam);
+            smt.setString(4, Hocki);
+            
+            ResultSet rs = smt.executeQuery();
+            if(rs.next()) return rs.getFloat(1);
 
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
      
     
      
     public void initChart(String maCn, String maMH,String Nam, String Hocki)
     {   
         chart.removeData();
-        
+        double[] countDiem = new double[]{0,0,0,0,0,0,0,0,0,0};
         String sql = "{CALL usp_ThongKeDiemTheoMonNam(?,?,?,?)}";
         try(Connection con = DataBaseHelper.getConnection();
                 PreparedStatement smt = con.prepareStatement(sql);)
@@ -116,51 +137,60 @@ public class JPanelThongKe2 extends javax.swing.JPanel {
            
             ResultSet rs = smt.executeQuery();
             int i =0;
-            double[] countDiem = new double[]{0,0,0,0,0,0,0,0,0,0};
-            if(rs.next()==false) JOptionPane.showMessageDialog(this, "Thống kế không được tìm thấy");
             while(rs.next())
             {   
+                System.out.println("" + rs.getString(1));
                 switch(rs.getString(1))
                 {
                     case "0-1": 
                     {
                         countDiem[0]=rs.getDouble(2);
+                        break;
                     }
                     case "1-2": 
                     {
                         countDiem[1]=rs.getDouble(2);
+                         break;
                     }
                     case "2-3": 
                     {
                         countDiem[2]=rs.getDouble(2);
+                         break;
                     }
                     case "3-4": 
                     {
                         countDiem[3]=rs.getDouble(2);
+                         break;
                     }
                     case "4-5": 
                     {
                         countDiem[4]=rs.getDouble(2);
+                         break;
                     }
                     case "5-6": 
                     {
                         countDiem[5]=rs.getDouble(2);
+                        break;
                     }
                     case "6-7": 
                     {
                         countDiem[6]=rs.getDouble(2);
+                         break;
                     }
                     case "7-8": 
                     {
                         countDiem[7]=rs.getDouble(2);
+                         break;
                     }
                     case "8-9": 
                     {
                         countDiem[8]=rs.getDouble(2);
+                         break;
                     }
                     case "9-10": 
                     {
                         countDiem[9]=rs.getDouble(2);
+                        break;
                     }
                   
                     
@@ -172,10 +202,16 @@ public class JPanelThongKe2 extends javax.swing.JPanel {
             chart.addData(new ModelChart(jComboBoxMH.getSelectedItem().toString(), countDiem));
            
             
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) {
             ex.printStackTrace();
         }
         
+         for(int i=0; i<10;i++)
+            {
+                System.out.println(i+ " " + countDiem[i]);
+            }
+           
         
         
         
@@ -210,6 +246,8 @@ public class JPanelThongKe2 extends javax.swing.JPanel {
         jLabel15 = new javax.swing.JLabel();
         jComboBoxHk = new javax.swing.JComboBox<>();
         jButtonThongKe = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabelDiemTB = new javax.swing.JLabel();
 
         searchText1.setText("searchText1");
 
@@ -221,8 +259,8 @@ public class JPanelThongKe2 extends javax.swing.JPanel {
         jPanel1.add(jLabel1);
 
         jLabel9.setBackground(new java.awt.Color(255, 204, 204));
-        jLabel9.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        jLabel9.setText("Chuyên Ngành");
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel9.setText("Chuyên Ngành:");
 
         jComboBoxCn.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jComboBoxCn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -240,7 +278,7 @@ public class JPanelThongKe2 extends javax.swing.JPanel {
         });
 
         jLabel12.setBackground(new java.awt.Color(255, 204, 204));
-        jLabel12.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel12.setText("Môn Học:");
 
         jComboBoxMH.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
@@ -251,7 +289,7 @@ public class JPanelThongKe2 extends javax.swing.JPanel {
         });
 
         jLabel14.setBackground(new java.awt.Color(255, 204, 204));
-        jLabel14.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel14.setText("Năm học:");
 
         jComboBoxNam.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
@@ -263,7 +301,7 @@ public class JPanelThongKe2 extends javax.swing.JPanel {
         });
 
         jLabel15.setBackground(new java.awt.Color(255, 204, 204));
-        jLabel15.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel15.setText("Học Kì:");
 
         jComboBoxHk.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
@@ -277,6 +315,12 @@ public class JPanelThongKe2 extends javax.swing.JPanel {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setText("Điểm trung bình môn:");
+
+        jLabelDiemTB.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabelDiemTB.setForeground(new java.awt.Color(204, 0, 51));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -288,30 +332,42 @@ public class JPanelThongKe2 extends javax.swing.JPanel {
                         .addContainerGap()
                         .addComponent(chart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(72, 72, 72)
-                                .addComponent(jComboBoxNam, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(72, 72, 72)
-                                .addComponent(jComboBoxHk, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(434, 434, 434)
+                                .addComponent(jButtonThongKe))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(72, 72, 72)
-                                .addComponent(jComboBoxCn, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(42, 42, 42)
-                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(72, 72, 72)
-                                .addComponent(jComboBoxMH, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(43, 43, 43)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jComboBoxCn, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(42, 42, 42)
+                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(72, 72, 72)
+                                        .addComponent(jComboBoxMH, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addGap(224, 224, 224))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jComboBoxNam, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGap(11, 11, 11)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(72, 72, 72)
+                                                .addComponent(jComboBoxHk, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabelDiemTB, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE)))))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(434, 434, 434)
-                .addComponent(jButtonThongKe)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -331,7 +387,11 @@ public class JPanelThongKe2 extends javax.swing.JPanel {
                     .addComponent(jComboBoxHk, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addComponent(jButtonThongKe)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelDiemTB, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45)
                 .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -368,6 +428,12 @@ public class JPanelThongKe2 extends javax.swing.JPanel {
         initChart(searchMaCn(jComboBoxCn.getSelectedItem().toString().trim()), searchMaMonHoc(jComboBoxMH.getSelectedItem().toString().trim()), jComboBoxNam.getSelectedItem().toString(), jComboBoxHk.getSelectedItem().toString());
         chart.setVisible(false);
         chart.setVisible(true);
+        Float diemTb = diemTrungBinhMonHoc(searchMaCn(jComboBoxCn.getSelectedItem().toString().trim()), searchMaMonHoc(jComboBoxMH.getSelectedItem().toString().trim()), jComboBoxNam.getSelectedItem().toString(), jComboBoxHk.getSelectedItem().toString());
+        if(diemTb!=null)
+            jLabelDiemTB.setText(String.valueOf(diemTb));
+        
+        
+        
     }//GEN-LAST:event_jButtonThongKeActionPerformed
 
 
@@ -382,7 +448,9 @@ public class JPanelThongKe2 extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelDiemTB;
     private javax.swing.JPanel jPanel1;
     private com.raven.swing.SearchText searchText1;
     // End of variables declaration//GEN-END:variables
